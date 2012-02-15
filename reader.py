@@ -116,13 +116,14 @@ if __name__ == '__main__':
     resource.holder = holder
 
     top = server.Site(resource)
-    reactor.listenTCP(8080, top)
+    http_port = config.getint('http', 'port')
+    reactor.listenTCP(http_port, top)
 
     r = Reader()
     r.reactor = reactor
-    r.port = config.get('general', 'port')
-    r.baudrate = config.getint('general', 'baudrate')
-    r.reconnect_rate = config.getint('general', 'reconnect_rate')
+    r.port = config.get('serial', 'port')
+    r.baudrate = config.getint('serial', 'baudrate')
+    r.reconnect_rate = config.getint('serial', 'reconnect_rate')
     r.holder = holder
 
     log.msg('Attempting to open %s at %dbps' % (r.port, r.baudrate))

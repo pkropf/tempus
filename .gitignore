@@ -1,4 +1,3 @@
-syntax: glob
 *~
 *.pyc
 reader.log
