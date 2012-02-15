@@ -3,16 +3,23 @@
 
 from twisted.python import log
 import sys
+import ConfigParser
+
+config = ConfigParser.ConfigParser()
+config.read('reader.cfg')
 
 
 if __name__ == '__main__':
     from twisted.internet import reactor
     from twisted.internet.serialport import SerialPort
 
-    #logFile = 'reader.log'
-    logFile = None
-    if logFile is None:
+    logname = config.get('general', 'logname', None)
+    if logname:
+        logFile = open(logname, 'a')
+
+    else:
         logFile = sys.stdout
+
     log.startLogging(logFile)
 
     from protocol import CardReceiver
@@ -43,10 +50,10 @@ if __name__ == '__main__':
                 self.retry = reactor.callLater(self.reconnect_rate, self.reconnect)
 
     r = reader()
-    r.port = '/dev/tty.usbserial-A900UCVB'
     r.reactor = reactor
-    r.baudrate = 9600
-    r.reconnect_rate = 1
+    r.port = config.get('general', 'port')
+    r.baudrate = config.getint('general', 'baudrate')
+    r.reconnect_rate = config.getint('general', 'reconnect_rate')
 
     log.msg('Attempting to open %s at %dbps' % (r.port, r.baudrate))
     s = SerialPort(r, r.port, r.reactor, baudrate=r.baudrate)
