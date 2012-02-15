@@ -7,3 +7,7 @@ available through a web server as a json structure.
 
 .. _Python: http://python.org
 .. _Twisted: http://twistedmatrix.com
+
+The rfid reader is an Innovations ID-12 available from SparkFun_.
+
+.. _SparkFun: http://www.sparkfun.com/products/9875
