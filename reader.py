@@ -24,10 +24,13 @@
 
 from twisted.web import server, resource
 from twisted.python import log
-from protocol import CardReceiver
 import sys
 from datetime import datetime
 import json
+from autobahn.websocket import WebSocketServerFactory, WebSocketServerProtocol, listenWS
+import operator
+from twisted.protocols import basic
+from twisted.python.compat import reduce
 
 
 class Holder():
@@ -63,9 +66,45 @@ class RfidJson(resource.Resource):
         return self.holder.json()
 
 
+class InvalidChecksum(Exception):
+    pass
+
+
+class CardReceiver(basic.LineReceiver):
+    """This parses ascii strings read from an rfid tag serial reader at 9,600 bps
+
+    From http://www.sparkfun.com/datasheets/Sensors/ID-12-Datasheet.pdf
+
+    Output Data Structure – ASCII
+    STX (02h) DATA (10 ASCII) CHECK SUM (2 ASCII) CR LF ETX (03h) 
+    [The 1byte (2 ASCII characters) Check sum is the “Exclusive OR” of the 5 hex bytes (10 ASCII) Data characters.]
+
+    For a read of
+
+    0100E2850E68<cr><lf>
+
+    int('68', 16) == reduce(operator.xor, [int(x, 16) for x in '01', '00', 'E2', '85', '0E'])
+    """
+
+    delimiter = '\r\n\03'
+
+    def lineReceived(self, line):
+        if not line.startswith('\02'):
+            raise InvalidSentence("%r does not begin with \\02" % (line,))
+
+        rfid, checksum = line[1:-2], line[-2:]
+
+        checksum, calculated_checksum = int(checksum, 16), reduce(operator.xor, [int(rfid[x:x+2], 16) for x in range(0,len(rfid), 2)])
+        if checksum != calculated_checksum:
+            raise InvalidChecksum("Given 0x%02X != 0x%02X" % (checksum, calculated_checksum))
+
+        return self.handle_rfid(rfid)
+
+
 class Reader(CardReceiver):
     def handle_rfid(self, *args):
         self.holder.set_rfid(args[0])
+        self.holder.factory.broadcast(self.holder.json())
 
 
     def connectionMade(self):
@@ -91,6 +130,46 @@ class Reader(CardReceiver):
             log.msg("Error opening serial port %s (%s)" % (self.port, sys.exc_info()[1]))
             log.msg("Reconnecting in %d seconds..." % self.reconnect_rate)
             self.retry = reactor.callLater(self.reconnect_rate, self.reconnect)
+
+
+class BroadcastRfidProtocol(WebSocketServerProtocol):
+
+    def onOpen(self):
+        self.factory.register(self)
+
+    def onMessage(self, msg, binary):
+        if not binary:
+            self.factory.broadcast("%s" % msg)
+
+    def connectionLost(self, reason):
+        WebSocketServerProtocol.connectionLost(self, reason)
+        self.factory.unregister(self)
+
+
+class BroadcastRfidFactory(WebSocketServerFactory):
+
+    protocol = BroadcastRfidProtocol
+
+    def __init__(self, url):
+        WebSocketServerFactory.__init__(self, url)
+        self.clients = []
+        self.tickcount = 0
+
+    def register(self, client):
+        if not client in self.clients:
+            print "registered client " + client.peerstr
+            self.clients.append(client)
+
+    def unregister(self, client):
+        if client in self.clients:
+            print "unregistered client " + client.peerstr
+            self.clients.remove(client)
+
+    def broadcast(self, msg):
+        print "broadcasting message '%s' .." % msg
+        for c in self.clients:
+            print "send to " + c.peerstr
+            c.sendMessage(msg)
 
 
 if __name__ == '__main__':
@@ -128,5 +207,9 @@ if __name__ == '__main__':
 
     log.msg('Attempting to open %s at %dbps' % (r.port, r.baudrate))
     s = SerialPort(r, r.port, r.reactor, baudrate=r.baudrate)
+
+    factory = BroadcastRfidFactory("ws://localhost:9000")
+    holder.factory = factory
+    listenWS(factory)
 
     reactor.run()
