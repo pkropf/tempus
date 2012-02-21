@@ -15,7 +15,7 @@
             }
 
             webSocket.onmessage = function(e) {
-               document.getElementById("log").innerHTML = e.data + "\n";
+               document.getElementById("log").innerHTML = e.data + "\n" + document.getElementById("log").innerHTML;
             }
          }
 
