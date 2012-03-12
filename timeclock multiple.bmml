@@ -1,0 +1,71 @@
+<mockup version="1.0" skin="sketch" measuredW="956" measuredH="520" mockupW="484" mockupH="480">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::TitleWindow" x="472" y="40" w="484" h="480" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bottomheight>4</bottomheight>
+        <text>Time%20Clock</text>
+      </controlProperties>
+    </control>
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::Label" x="752" y="278" w="171" h="23" measuredW="88" measuredH="21" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Barney%20Rubble</text>
+      </controlProperties>
+    </control>
+    <control controlID="5" controlTypeID="com.balsamiq.mockups::Label" x="487" y="75" w="119" h="19" measuredW="66" measuredH="21" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Timecards</text>
+      </controlProperties>
+    </control>
+    <control controlID="7" controlTypeID="com.balsamiq.mockups::DataGrid" x="491" y="101" w="235" h="284" measuredW="238" measuredH="265" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>square</borderStyle>
+        <text>Date%2C%20Clock%20In%2C%20Clock%20Out%0A2012-02-24%2C%207%3A34am%2C%0A2012-02-23%2C%207%3A34am%2C%209%3A43am%0A2012-02-22%2C%209%3A02pm%2C%2011%3A43pm%0A2012-02-21%2C%207%3A34am%2C%208%3A43am%0A2012-02-20%2C%207%3A34am%2C%209%3A43am%0A2012-02-17%2C%207%3A34am%2C%2011%3A43am%0A2012-02-16%2C%207%3A34am%2C%201%3A43pm%0A2012-02-15%2C%207%3A34am%2C%209%3A43am</text>
+        <verticalScrollbar>true</verticalScrollbar>
+      </controlProperties>
+    </control>
+    <control controlID="10" controlTypeID="com.balsamiq.mockups::Label" x="824" y="45" w="-1" h="-1" measuredW="124" measuredH="21" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>2012-03-11%20%201%3A34pm</text>
+      </controlProperties>
+    </control>
+    <control controlID="12" controlTypeID="com.balsamiq.mockups::Paragraph" x="752" y="309" w="180" h="68" measuredW="200" measuredH="140" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Start%20Date%3A%092012-02-15%0AEnd%20Date%3A%092012-06-30%0AHours%20Today%3A%091.5%0AHours%20Total%3A%0976.32</text>
+      </controlProperties>
+    </control>
+    <control controlID="14" controlTypeID="com.balsamiq.mockups::Image" x="752" y="81" w="171" h="182" measuredW="121" measuredH="110" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <filter>true</filter>
+        <src>./Barney%2520Rubble.jpg</src>
+      </controlProperties>
+    </control>
+    <control controlID="18" controlTypeID="__group__" x="640" y="482" w="141" h="27" measuredW="141" measuredH="27" zOrder="4" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::Button" x="0" y="0" w="-1" h="-1" measuredW="62" measuredH="27" zOrder="0" locked="false" isInGroup="18">
+          <controlProperties>
+            <text>Stamp</text>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::Button" x="86" y="0" w="-1" h="-1" measuredW="55" measuredH="27" zOrder="1" locked="false" isInGroup="18">
+          <controlProperties>
+            <text>Clear</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="19" controlTypeID="__group__" x="512" y="392" w="192" h="63" measuredW="192" measuredH="63" zOrder="8" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::RadioButtonGroup" x="0" y="0" w="-1" h="-1" measuredW="84" measuredH="63" zOrder="0" locked="false" isInGroup="19">
+          <controlProperties>
+            <text>%28%20%29%20Volunteer%0A%28%20%29%20Create%0A%28%20%29%20Youth</text>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::RadioButtonGroup" x="123" y="0" w="-1" h="-1" measuredW="69" measuredH="63" zOrder="1" locked="false" isInGroup="19">
+          <controlProperties>
+            <text>%28%20%29%20Faculty%0A%28x%29%20Staff%0A%28%20%29%20Studio</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+  </controls>
+</mockup>
