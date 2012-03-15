@@ -1,3 +1,5 @@
 pyserial
 twisted
 Autobahn
+Django
+nose
