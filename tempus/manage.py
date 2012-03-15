@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 # Copyright (c) 2012 Peter Kropf. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -18,17 +21,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-[general]
-logname = reader.log
-#logname = 
 
-[serial]
-port = /dev/tty.usbserial-A900UCVB
-baudrate = 9600
-reconnect_rate = 1
+from django.core.management import execute_manager
+import imp
+try:
+    imp.find_module('settings') # Assumed to be in the same directory.
+except ImportError:
+    import sys
+    sys.stderr.write("Error: Can't find the file 'settings.py' in the directory containing %r. It appears you've customized things.\nYou'll have to run django-admin.py, passing it your settings module.\n" % __file__)
+    sys.exit(1)
 
-[http]
-port = 9000
+import settings
 
-[ws]
-port = 9001
+if __name__ == "__main__":
+    execute_manager(settings)

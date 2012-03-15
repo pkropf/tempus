@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # Copyright (c) 2012 Peter Kropf. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -18,17 +20,4 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-[general]
-logname = reader.log
-#logname = 
-
-[serial]
-port = /dev/tty.usbserial-A900UCVB
-baudrate = 9600
-reconnect_rate = 1
-
-[http]
-port = 9000
-
-[ws]
-port = 9001
+# Create your views here.

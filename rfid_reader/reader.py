@@ -211,7 +211,8 @@ if __name__ == '__main__':
     log.msg('Attempting to open %s at %dbps' % (r.port, r.baudrate))
     s = SerialPort(r, r.port, r.reactor, baudrate=r.baudrate)
 
-    factory = BroadcastRfidFactory("ws://localhost:9000")
+    ws_port = config.getint('ws', 'port')
+    factory = BroadcastRfidFactory("ws://localhost:%d" % ws_port)
     holder.factory = factory
     listenWS(factory)
 

@@ -8,7 +8,7 @@ most likely other things.
 
 Currently working is a simple Twisted_ Python_ application that will
 read an rfid tag via a Innovations ID-12 (or such) card reader. The
-rfid value is made available through a web server as a json structure.
+rfid value is made available through a websocket as a json structure.
 
 .. _Python: http://python.org
 .. _Twisted: http://twistedmatrix.com

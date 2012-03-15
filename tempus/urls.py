@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # Copyright (c) 2012 Peter Kropf. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -18,17 +20,21 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-[general]
-logname = reader.log
-#logname = 
 
-[serial]
-port = /dev/tty.usbserial-A900UCVB
-baudrate = 9600
-reconnect_rate = 1
+from django.conf.urls.defaults import patterns, include, url
 
-[http]
-port = 9000
+# Uncomment the next two lines to enable the admin:
+# from django.contrib import admin
+# admin.autodiscover()
 
-[ws]
-port = 9001
+urlpatterns = patterns('',
+    # Examples:
+    # url(r'^$', 'tempus.views.home', name='home'),
+    # url(r'^tempus/', include('tempus.foo.urls')),
+
+    # Uncomment the admin/doc line below to enable admin documentation:
+    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+
+    # Uncomment the next line to enable the admin:
+    # url(r'^admin/', include(admin.site.urls)),
+)

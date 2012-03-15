@@ -1,3 +1,4 @@
 *~
 *.pyc
 reader.log
+*.sqlite3
