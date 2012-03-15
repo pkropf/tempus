@@ -38,8 +38,8 @@ class Holder():
         self.rfid = ''
         self.rfid_stamp = None
         self.port = None
-        self.bauderate = None
-        self.connection_stamp = None
+        self.baudrate = None
+        self.connection_stamp = datetime.now()
         self.connection_status = 'unknown'
 
     def set_rfid(self, rfid):
@@ -65,8 +65,11 @@ class RfidJson(resource.Resource):
         request.defaultContentType = 'application/json'
         return self.holder.json()
 
-
 class InvalidChecksum(Exception):
+    pass
+
+
+class InvalidSentence(Exception):
     pass
 
 
