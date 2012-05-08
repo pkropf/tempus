@@ -24,6 +24,7 @@
 
 from twisted.web import server, resource
 from twisted.python import log
+from twisted.internet.task import LoopingCall
 import sys
 from datetime import datetime
 import json
@@ -56,6 +57,9 @@ class Holder():
                            'connection_status': self.connection_status,
                            'connection_time': str(datetime.now() - self.connection_stamp),
                            })
+
+    def heartbeat(self, *args, **kw):
+        self.factory.broadcast(json.dumps({'heartbeat': str(datetime.now())}))
 
 
 class RfidJson(resource.Resource):
@@ -183,7 +187,7 @@ if __name__ == '__main__':
     config = ConfigParser.ConfigParser()
     config.read('reader.cfg')
 
-    logname = config.get('general', 'logname', None)
+    logname = config.get('log', 'name', None)
     if logname:
         logFile = open(logname, 'a')
 
@@ -212,8 +216,10 @@ if __name__ == '__main__':
     s = SerialPort(r, r.port, r.reactor, baudrate=r.baudrate)
 
     ws_port = config.getint('ws', 'port')
-    factory = BroadcastRfidFactory("ws://localhost:%d" % ws_port)
-    holder.factory = factory
-    listenWS(factory)
+    holder.factory = BroadcastRfidFactory("ws://localhost:%d" % ws_port)
+    listenWS(holder.factory)
+
+    heartbeat = LoopingCall(holder.heartbeat, holder)
+    heartbeat.start(1)
 
     reactor.run()

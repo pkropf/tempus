@@ -2,31 +2,29 @@
 <html>
    <head>
       <script type="text/javascript">
-         window.onload = function() {
+      window.onload = function() {
 
-            var wsuri = "ws://localhost:9001";
+        var wsurim = "ws://localhost:9001";
+        webSocketm = new WebSocket(wsurim);
+        webSocketm.onmessage = function(e) { onMessage(e) };
 
-            if ("WebSocket" in window) {
-               webSocket = new WebSocket(wsuri);
-            }
-            else {
-               // Firefox currently prefixes the WebSocket object
-               webSocket = new MozWebSocket(wsuri);
-            }
+        function onMessage(e)
+        {
+          var fields = eval('(' + e.data + ')');
 
-            webSocket.onmessage = function(e) {
-               document.getElementById("log").innerHTML = e.data + "\n" + document.getElementById("log").innerHTML;
-            }
-         }
-
-         function broadcast() {
-            webSocket.send(document.getElementById("message").value);
-         }
+          if ("heartbeat" in fields) {
+            document.getElementById("heartbeat").innerHTML = e.data;
+          } else {
+            document.getElementById("log").innerHTML = e.data + "\n" + document.getElementById("log").innerHTML;
+          }
+        }
+      }
       </script>
    </head>
 
    <body>
       <h1>RFID Reader</h1>
+      <pre id="heartbeat"></pre>
       <pre id="log"></pre>
    </body>
 </html>
