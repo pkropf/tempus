@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>org.tempus.reader</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/Users/peter/projects/tempus/rfid_reader/org.tempus.reader.sh</string>
+	</array>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>ServiceDescription</key>
+	<string>Launch the rfid card reader to provide a websocket interface to send card ids as they're scanned.</string>
+</dict>
+</plist>
