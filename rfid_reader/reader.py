@@ -23,6 +23,7 @@
 
 
 from twisted.web import server, resource
+from twisted.python.logfile import DailyLogFile
 from twisted.python import log
 from twisted.internet.task import LoopingCall
 import sys
@@ -188,13 +189,7 @@ if __name__ == '__main__':
     config.read('reader.cfg')
 
     logname = config.get('log', 'name', None)
-    if logname:
-        logFile = open(logname, 'a')
-
-    else:
-        logFile = sys.stdout
-
-    log.startLogging(logFile)
+    log.startLogging(DailyLogFile.fromFullPath(logname))
 
     holder = Holder()
 
@@ -220,6 +215,6 @@ if __name__ == '__main__':
     listenWS(holder.factory)
 
     heartbeat = LoopingCall(holder.heartbeat, holder)
-    heartbeat.start(1)
+    heartbeat.start(config.getint('heartbeat', 'period'))
 
     reactor.run()
