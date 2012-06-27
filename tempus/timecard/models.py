@@ -27,24 +27,25 @@ from datetime import datetime, date, timedelta
 from django.contrib.auth.models import User
 
 
+class Rfidcard(models.Model):
+    """0100E2850E68"""
+    rfid = models.CharField(max_length=24)
+    #user = models.ForeignKey(UserProfile, null=True, blank=True)
+    active = models.BooleanField()
+
+    def __str__(self):
+        return self.rfid
+
+
 class UserProfile(models.Model):
     # This is the only required field
-    user  = models.ForeignKey(User, unique=True)
-    image = models.ImageField(upload_to='profile/%Y/%m/%d', height_field='height', width_field='width', null=True, blank=True)
+    rfid  = models.ForeignKey('Rfidcard', unique=True)
+    user   = models.ForeignKey(User, unique=True)
+    image  = models.ImageField(upload_to='profile/%Y/%m/%d', null=True, blank=True)
+    #image  = models.ImageField(upload_to='profile/%Y/%m/%d', height_field='height', width_field='width', null=True, blank=True)
 
 
-class Stamp(models.Model):
-    """A stamp provides the basis for recording the time someone
-    clocks in and then clocks out.
-    """
-    stamp = models.DateTimeField(help_text="Clock date and time.")
-    card  = models.ForeignKey('Card')
-
-    def __unicode__(self):
-        return str(self.id) + ': ' + str(self.stamp)
-
-
-class CardTypes(models.Model):
+class TimecardType(models.Model):
     """
     """
     name = models.CharField(max_length=64)
@@ -52,20 +53,15 @@ class CardTypes(models.Model):
 
 
 
-class CardExpired(Exception):
-    pass
-
-
-
-class Card(models.Model):
-    """A card is used to collet the stamps for a particular period of
+class Timecard(models.Model):
+    """A timecard is used to collet the stamps for a particular period of
     time. For instance, the all the times that a volunteer
     """
-    card_type  = models.ForeignKey(CardTypes)
-    user       = models.ForeignKey(UserProfile, null=True, blank=True)
-    start_date = models.DateField(help_text="The starting date for the timecard.")
-    end_date   = models.DateField(help_text="The ending date for the timecard.")
-    notes      = models.TextField(help_text="Notes on the timecard.", null=True, blank=True)
+    timecard_type = models.ForeignKey(TimecardType)
+    user          = models.ForeignKey(UserProfile, null=True, blank=True)
+    start_date    = models.DateField(help_text="The starting date for the timecard.")
+    end_date      = models.DateField(help_text="The ending date for the timecard.")
+    notes         = models.TextField(help_text="Notes on the timecard.", null=True, blank=True)
 
     start_date.current_filter = True
 
@@ -73,27 +69,27 @@ class Card(models.Model):
         ordering = ['user', 'start_date']
 
     def __unicode__(self):
-        return str(self.user) + ': ' + str(self.card_type) + ' - ' + str(self.start_date) + ' - ' + str(self.end_date)
+        return str(self.user) + ': ' + str(self.timecard_type) + ' - ' + str(self.start_date) + ' - ' + str(self.end_date)
 
 
     def stamp(self):
         now = datetime.now()
 
         if self.start_date > now:
-            raise CardInactive
+            raise TimecardInactive
 
         if now > self.end_date:
-            raise CardExpired
+            raise TimecardExpired
 
-        Stamp(stamp = now, card = self).save()
+        Stamp(stamp = now, timecard = self).save()
 
 
     # TODO: review everything that follows
     def hours(self, day=None):
-        """Determine the number of hours logged on the card.
+        """Determine the number of hours logged on the timecard.
         """
         h = 0.0
-        for s in Stamp.objects.filter(card=self):
+        for s in Stamp.objects.filter(timecard=self):
             h = h + s.hours()
 
         return h
@@ -103,7 +99,18 @@ class Card(models.Model):
         """Determine the number of hours logged today.
         """
         h = 0.0
-        for s in Stamp.objects.filter(card=self, stamp_in__gte = date.today()):
+        for s in Stamp.objects.filter(timecard=self, stamp_in__gte = date.today()):
             h = h + s.hours()
 
         return h
+
+
+class Stamp(models.Model):
+    """A stamp provides the basis for recording the time someone
+    clocks in and then clocks out.
+    """
+    stamp = models.DateTimeField(help_text="Clock date and time.")
+    timecard = models.ForeignKey('Timecard')
+
+    def __unicode__(self):
+        return str(self.id) + ': ' + str(self.stamp)

@@ -3,3 +3,8 @@ twisted
 Autobahn
 Django
 nose
+django-tastypie
+lxml
+mimeparse
+pyyaml
+pil

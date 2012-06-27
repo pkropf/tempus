@@ -21,20 +21,17 @@
 # THE SOFTWARE.
 
 
-from django.conf.urls.defaults import patterns, include, url
+from tastypie.resources import ModelResource
+from tempus.models import UserProfile, Card
 
-# Uncomment the next two lines to enable the admin:
-from django.contrib import admin
-admin.autodiscover()
 
-urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'tempus.views.home', name='home'),
-    # url(r'^tempus/', include('tempus.foo.urls')),
+class UserProfileResource(ModelResource):
+    class Meta:
+        queryset = UserProfile.objects.all()
+        resource_name = 'user'
 
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
-    # Uncomment the next line to enable the admin:
-    url(r'^admin/', include(admin.site.urls)),
-)
+class CardResource(ModelResource):
+    class Meta:
+        queryset = Card.objects.all()
+        resource_name = 'card'
