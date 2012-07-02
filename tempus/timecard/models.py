@@ -33,16 +33,23 @@ class Rfidcard(models.Model):
     #user = models.ForeignKey(UserProfile, null=True, blank=True)
     active = models.BooleanField()
 
-    def __str__(self):
+    def __unicode__(self):
         return self.rfid
 
 
 class UserProfile(models.Model):
     # This is the only required field
-    rfid  = models.ForeignKey('Rfidcard', unique=True)
-    user   = models.ForeignKey(User, unique=True)
-    image  = models.ImageField(upload_to='profile/%Y/%m/%d', null=True, blank=True)
+    tag     = models.CharField(length=32, help='Tag to identify this profile.')
+    rfid    = models.ForeignKey(Rfidcard, unique=True)
+    user    = models.ForeignKey(User)
+    image   = models.ImageField(upload_to='profile/%Y/%m/%d', null=True, blank=True)
     #image  = models.ImageField(upload_to='profile/%Y/%m/%d', height_field='height', width_field='width', null=True, blank=True)
+
+    def __unicode__(self):
+        if len(self.tag):
+            return str(self.user) + ' - ' + self.tag
+        else:
+            return str(self.user)
 
 
 class TimecardType(models.Model):
@@ -51,6 +58,8 @@ class TimecardType(models.Model):
     name = models.CharField(max_length=64)
     description = models.TextField(help_text = 'Description of the type of timecard.', null = True, blank = True)
 
+    def __unicode__(self):
+        return self.name
 
 
 class Timecard(models.Model):
