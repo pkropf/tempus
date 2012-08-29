@@ -39,7 +39,7 @@ class Rfidcard(models.Model):
 
 class UserProfile(models.Model):
     # This is the only required field
-    tag     = models.CharField(length=32, help='Tag to identify this profile.')
+    tag     = models.CharField(max_length=32, help_text='Tag to identify this profile.')
     rfid    = models.ForeignKey(Rfidcard, unique=True)
     user    = models.ForeignKey(User)
     image   = models.ImageField(upload_to='profile/%Y/%m/%d', null=True, blank=True)
