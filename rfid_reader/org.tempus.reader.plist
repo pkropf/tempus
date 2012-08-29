@@ -10,6 +10,8 @@
 	</array>
 	<key>RunAtLoad</key>
 	<true/>
+	<key>KeepAlive</key>
+	<true/>
 	<key>ServiceDescription</key>
 	<string>Launch the rfid card reader to provide a websocket interface to send card ids as they're scanned.</string>
 </dict>

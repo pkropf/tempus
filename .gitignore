@@ -2,3 +2,5 @@
 *.pyc
 reader.log
 *.sqlite3
+rfid_reader/log
+tempus/profile
