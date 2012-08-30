@@ -21,7 +21,7 @@
 # THE SOFTWARE.
 
 
-from tastypie.authorization import Authorization
+from tastypie.authentication import BasicAuthentication
 from tastypie import fields
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from timecard.models import Rfidcard, Profile, TimecardType
@@ -32,13 +32,14 @@ class RfidcardResource(ModelResource):
     class Meta:
         queryset = Rfidcard.objects.all()
         resource_name = 'rfidcard'
-        authorization = Authorization()
+        authentication = BasicAuthentication()
 
 
 class UserResource(ModelResource):
     class Meta:
         queryset = User.objects.all()
         resource_name = 'user'
+        authentication = BasicAuthentication()
         excludes = ['password', 'is_active', 'is_staff', 'is_superuser',]
         allowed_methods = ['get',]
         filtering = {
@@ -53,7 +54,7 @@ class ProfileResource(ModelResource):
     class Meta:
         queryset = Profile.objects.all()
         resource_name = 'profile'
-        authorization = Authorization()
+        authentication = BasicAuthentication()
         filtering = {
             'user': ALL_WITH_RELATIONS,
             }
@@ -63,4 +64,4 @@ class TimecardTypeResource(ModelResource):
     class Meta:
         queryset = TimecardType.objects.all()
         resource_name = 'timecardtype'
-        authorization = Authorization()
+        authentication = BasicAuthentication()

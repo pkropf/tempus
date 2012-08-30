@@ -21,19 +21,40 @@
 # THE SOFTWARE.
 
 
-"""
-This file demonstrates writing tests using the unittest module. These will pass
-when you run "manage.py test".
-
-Replace this with more appropriate tests for your application.
-"""
-
 from django.test import TestCase
 
+import datetime
+import warnings
+from django.contrib.auth.models import User
+from tastypie.test import ResourceTestCase
+from django.utils import unittest
+from timecard.models import Rfidcard, Profile, TimecardType
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.assertEqual(1 + 1, 2)
+
+class RfidcardResourceTest(ResourceTestCase):
+    def setUp(self):
+        super(RfidcardResourceTest, self).setUp()
+
+        self.username = 'Wilma'
+        self.password = 'password'
+        self.email    = 'wilma@example.com'
+        self.user     = User.objects.create_user(self.username, self.email, self.password)
+
+        self.rfid_1 = Rfidcard.objects.get(pk=1)
+        self.detail_url = '/api/v1/rfidcard/{0}/'.format(self.rfid_1.pk)
+
+
+    def get_credentials(self):
+        return self.create_basic(username=self.username, password=self.password)
+
+
+    def test_get_rfidcard(self):
+        resp = self.api_client.get('/api/v1/rfidcard/', format='json', authentication=self.get_credentials())
+
+        self.assertValidJSONResponse(resp)
+
+        self.assertEqual(len(self.deserialize(resp)['objects']), 2)
+
+
+    def test_get_rfidcards_unauthorzied(self):
+        self.assertHttpUnauthorized(self.api_client.get('/api/v1/rfidcard/', format='json'))
