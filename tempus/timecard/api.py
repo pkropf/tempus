@@ -22,16 +22,10 @@
 
 
 from tastypie.resources import ModelResource
-from tempus.models import UserProfile, Card
+from timecard.models import Rfidcard
 
 
-class UserProfileResource(ModelResource):
+class RfidcardResource(ModelResource):
     class Meta:
-        queryset = UserProfile.objects.all()
-        resource_name = 'user'
-
-
-class CardResource(ModelResource):
-    class Meta:
-        queryset = Card.objects.all()
-        resource_name = 'card'
+        queryset = Rfidcard.objects.all()
+        resource_name = 'rfidcard'
