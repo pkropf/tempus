@@ -20,32 +20,4 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-
-from django.conf.urls.defaults import patterns, include, url
-from timecard.api import RfidcardResource, UserResource, ProfileResource, TimecardTypeResource
-from tastypie.api import Api
-
-v1_api = Api(api_name = 'v1')
-v1_api.register(RfidcardResource())
-v1_api.register(UserResource())
-v1_api.register(ProfileResource())
-v1_api.register(TimecardTypeResource())
-
-
-# Uncomment the next two lines to enable the admin:
-from django.contrib import admin
-admin.autodiscover()
-
-
-urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'tempus.views.home', name='home'),
-    # url(r'^tempus/', include('tempus.foo.urls')),
-
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
-    url(r'^admin/', include(admin.site.urls)),
-    (r'^api/', include(v1_api.urls)),
-)
+"""empty app used to load auth fixture data on syncdb"""

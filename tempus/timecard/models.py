@@ -30,14 +30,13 @@ from django.contrib.auth.models import User
 class Rfidcard(models.Model):
     """0100E2850E68"""
     rfid = models.CharField(max_length=24)
-    #user = models.ForeignKey(UserProfile, null=True, blank=True)
     active = models.BooleanField()
 
     def __unicode__(self):
         return self.rfid
 
 
-class UserProfile(models.Model):
+class Profile(models.Model):
     # This is the only required field
     tag     = models.CharField(max_length=32, help_text='Tag to identify this profile.')
     rfid    = models.ForeignKey(Rfidcard, unique=True)
@@ -67,7 +66,7 @@ class Timecard(models.Model):
     time. For instance, the all the times that a volunteer
     """
     timecard_type = models.ForeignKey(TimecardType)
-    user          = models.ForeignKey(UserProfile, null=True, blank=True)
+    user          = models.ForeignKey(Profile, null=True, blank=True)
     start_date    = models.DateField(help_text="The starting date for the timecard.")
     end_date      = models.DateField(help_text="The ending date for the timecard.")
     notes         = models.TextField(help_text="Notes on the timecard.", null=True, blank=True)

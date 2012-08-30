@@ -19,16 +19,16 @@
 # THE SOFTWARE.
 
 
-from models import UserProfile, Rfidcard, TimecardType, Timecard
+from models import Profile, Rfidcard, TimecardType, Timecard
 from django.contrib import admin
 
 
-class UserProfileAdmin(admin.ModelAdmin):
+class ProfileAdmin(admin.ModelAdmin):
     list_display  = ('user', 'rfid',)
     ordering      = ('user', 'rfid',)
     search_fields = ('user__first_name', 'user__last_name', 'rfid',)
 
-admin.site.register(UserProfile, UserProfileAdmin)
+admin.site.register(Profile, ProfileAdmin)
 
 
 class RfidcardAdmin(admin.ModelAdmin):

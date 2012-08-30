@@ -21,11 +21,46 @@
 # THE SOFTWARE.
 
 
-from tastypie.resources import ModelResource
-from timecard.models import Rfidcard
+from tastypie.authorization import Authorization
+from tastypie import fields
+from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
+from timecard.models import Rfidcard, Profile, TimecardType
+from django.contrib.auth.models import User
 
 
 class RfidcardResource(ModelResource):
     class Meta:
         queryset = Rfidcard.objects.all()
         resource_name = 'rfidcard'
+        authorization = Authorization()
+
+
+class UserResource(ModelResource):
+    class Meta:
+        queryset = User.objects.all()
+        resource_name = 'user'
+        excludes = ['password', 'is_active', 'is_staff', 'is_superuser',]
+        allowed_methods = ['get',]
+        filtering = {
+            'username': ALL,
+        }
+
+
+class ProfileResource(ModelResource):
+    user = fields.ForeignKey(UserResource, 'user')
+    rfid = fields.ForeignKey(RfidcardResource, 'rfid')
+
+    class Meta:
+        queryset = Profile.objects.all()
+        resource_name = 'profile'
+        authorization = Authorization()
+        filtering = {
+            'user': ALL_WITH_RELATIONS,
+            }
+
+
+class TimecardTypeResource(ModelResource):
+    class Meta:
+        queryset = TimecardType.objects.all()
+        resource_name = 'timecardtype'
+        authorization = Authorization()
