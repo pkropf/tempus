@@ -33,6 +33,7 @@ class RfidcardResource(ModelResource):
         queryset = Rfidcard.objects.all()
         resource_name = 'rfidcard'
         authentication = BasicAuthentication()
+        ordering = ['rfid',]
 
 
 class UserResource(ModelResource):
@@ -58,6 +59,7 @@ class ProfileResource(ModelResource):
         filtering = {
             'user': ALL_WITH_RELATIONS,
             }
+        ordering = ['tag',]
 
 
 class TimecardTypeResource(ModelResource):
@@ -65,3 +67,4 @@ class TimecardTypeResource(ModelResource):
         queryset = TimecardType.objects.all()
         resource_name = 'timecardtype'
         authentication = BasicAuthentication()
+        ordering = ['name',]

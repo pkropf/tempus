@@ -48,7 +48,7 @@ class RfidcardResourceTest(ResourceTestCase):
         return self.create_basic(username=self.username, password=self.password)
 
 
-    def test_get_rfidcard(self):
+    def test_rfidcard_get(self):
         resp = self.api_client.get('/api/v1/rfidcard/', format='json', authentication=self.get_credentials())
 
         self.assertValidJSONResponse(resp)
@@ -56,5 +56,40 @@ class RfidcardResourceTest(ResourceTestCase):
         self.assertEqual(len(self.deserialize(resp)['objects']), 2)
 
 
-    def test_get_rfidcards_unauthorzied(self):
+    def test_rfidcards_get_unauthorzied(self):
         self.assertHttpUnauthorized(self.api_client.get('/api/v1/rfidcard/', format='json'))
+
+
+
+class TimecardTypeResourceTest(ResourceTestCase):
+    def setUp(self):
+        super(TimecardTypeResourceTest, self).setUp()
+
+        self.username = 'Wilma'
+        self.password = 'password'
+        self.email    = 'wilma@example.com'
+        self.user     = User.objects.create_user(self.username, self.email, self.password)
+
+
+    def get_credentials(self):
+        return self.create_basic(username=self.username, password=self.password)
+
+
+    def test_timecardtype_get(self):
+        resp = self.api_client.get('/api/v1/timecardtype/', format='json', authentication=self.get_credentials())
+
+        self.assertValidJSONResponse(resp)
+
+        self.assertEqual(len(self.deserialize(resp)['objects']), 5)
+
+
+    def test_timecardtype_get_unauthorzied(self):
+        self.assertHttpUnauthorized(self.api_client.get('/api/v1/timecardtype/', format='json'))
+
+
+    def test_timecardtype_order(self):
+        resp = self.api_client.get('/api/v1/timecardtype/?order_by=name', format='json', authentication=self.get_credentials())
+
+        self.assertValidJSONResponse(resp)
+
+        self.assertEqual([tt['name'] for tt in self.deserialize(resp)['objects']], ['Create', 'Faculty', 'Intern', 'Staff', 'Volunteer'])

@@ -36,9 +36,5 @@
              "description": ""}},
  {"pk": 5,
   "model": "timecard.timecardtype",
-  "fields": {"name": "Staff",
-             "description": ""}},
- {"pk": 6,
-  "model": "timecard.timecardtype",
   "fields": {"name": "Faculty",
              "description": ""}}]
