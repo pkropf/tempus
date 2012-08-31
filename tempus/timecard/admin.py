@@ -19,7 +19,7 @@
 # THE SOFTWARE.
 
 
-from models import Profile, Rfidcard, TimecardType, Timecard
+from models import Profile, Rfidcard, TimecardType, Timecard, Stamp
 from django.contrib import admin
 
 
@@ -62,3 +62,11 @@ class TimecardAdmin(admin.ModelAdmin):
         }),)
 
 admin.site.register(Timecard, TimecardAdmin)
+
+
+class StampAdmin(admin.ModelAdmin):
+    list_display = ('stamp', 'timecard',)
+    ordering     = ('timecard',)
+    search_fields = ('stamp', 'timecard',)
+
+admin.site.register(Stamp, StampAdmin)

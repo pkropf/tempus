@@ -93,3 +93,31 @@ class TimecardTypeResourceTest(ResourceTestCase):
         self.assertValidJSONResponse(resp)
 
         self.assertEqual([tt['name'] for tt in self.deserialize(resp)['objects']], ['Create', 'Faculty', 'Intern', 'Staff', 'Volunteer'])
+
+
+
+
+class TimecardResourceTest(ResourceTestCase):
+    def setUp(self):
+        super(TimecardResourceTest, self).setUp()
+
+        self.username = 'Wilma'
+        self.password = 'password'
+        self.email    = 'wilma@example.com'
+        self.user     = User.objects.create_user(self.username, self.email, self.password)
+
+
+    def get_credentials(self):
+        return self.create_basic(username=self.username, password=self.password)
+
+
+    def test_timecard_get(self):
+        resp = self.api_client.get('/api/v1/timecard/', format='json', authentication=self.get_credentials())
+
+        self.assertValidJSONResponse(resp)
+
+        self.assertEqual(len(self.deserialize(resp)['objects']), 1)
+
+
+    def test_timecard_get_unauthorzied(self):
+        self.assertHttpUnauthorized(self.api_client.get('/api/v1/timecard/', format='json'))

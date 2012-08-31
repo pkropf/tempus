@@ -24,7 +24,7 @@
 from tastypie.authentication import BasicAuthentication
 from tastypie import fields
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
-from timecard.models import Rfidcard, Profile, TimecardType
+from timecard.models import Rfidcard, Profile, TimecardType, Timecard, Stamp
 from django.contrib.auth.models import User
 
 
@@ -68,3 +68,18 @@ class TimecardTypeResource(ModelResource):
         resource_name = 'timecardtype'
         authentication = BasicAuthentication()
         ordering = ['name',]
+
+
+class TimecardResource(ModelResource):
+    class Meta:
+        queryset = Timecard.objects.all()
+        resource_name = 'timecard'
+        authentication = BasicAuthentication()
+
+
+class StampResource(ModelResource):
+    class Meta:
+        queryset = Stamp.objects.all()
+        resource_name = 'stamp'
+        authentication = BasicAuthentication()
+        ordering = ['stamp',]
