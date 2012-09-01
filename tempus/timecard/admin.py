@@ -48,14 +48,14 @@ admin.site.register(TimecardType, TimecardTypeAdmin)
 
 
 class TimecardAdmin(admin.ModelAdmin):
-    list_display  = ('user', 'timecard_type', 'start_date', 'end_date',)
-    ordering      = ('user', 'start_date',)
-    search_fields = ('user__first_name', 'user__last_name',)
-    list_filter   = ('timecard_type', 'start_date', 'user',)
+    list_display  = ('profile', 'timecardtype', 'start_date', 'end_date',)
+    ordering      = ('profile', 'start_date',)
+    search_fields = ('profile__first_name', 'profile__last_name',)
+    list_filter   = ('timecardtype', 'start_date', 'profile',)
     fieldsets     = (
         (None, {
             'fields': (
-                ('timecard_type', 'user',),
+                ('timecardtype', 'profile',),
                 ('start_date', 'end_date',),
                 'notes',
                 )

@@ -35,6 +35,9 @@ class RfidcardResource(ModelResource):
         resource_name = 'rfidcard'
         authentication = BasicAuthentication()
         ordering = ['rfid',]
+        filtering = {
+            'rfid': ALL,
+            }
 
 
 class UserResource(ModelResource):
@@ -59,6 +62,7 @@ class ProfileResource(ModelResource):
         authentication = BasicAuthentication()
         filtering = {
             'user': ALL_WITH_RELATIONS,
+            'rfid': ALL_WITH_RELATIONS,
             }
         ordering = ['tag',]
 
@@ -76,10 +80,16 @@ class TimecardResource(ModelResource):
         queryset = Timecard.objects.all()
         resource_name = 'timecard'
         authentication = BasicAuthentication()
+        filtering = {
+            'profile': ALL_WITH_RELATIONS,
+            }
 
-    hours_today = fields.FloatField(readonly = True)
-    hours_total = fields.FloatField(readonly = True)
-    pairs       = fields.ListField(readonly = True)
+    hours_today  = fields.FloatField(readonly = True)
+    hours_total  = fields.FloatField(readonly = True)
+    pairs        = fields.ListField(readonly = True)
+    typename     = fields.CharField(readonly = True)
+    timecardtype = fields.ForeignKey(TimecardTypeResource, 'timecardtype')
+    profile      = fields.ForeignKey(ProfileResource, 'profile')
 
 
     def dehydrate_hours_today(self, bundle):
@@ -92,6 +102,10 @@ class TimecardResource(ModelResource):
 
     def dehydrate_pairs(self, bundle):
         return bundle.obj.pairs()
+
+
+    def dehydrate_typename(self, bundle):
+        return bundle.obj.timecardtype.name
 
 
 

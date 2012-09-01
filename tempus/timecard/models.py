@@ -41,7 +41,6 @@ class Rfidcard(models.Model):
 
 
 class Profile(models.Model):
-    # This is the only required field
     tag     = models.CharField(max_length=32, help_text='Tag to identify this profile.')
     rfid    = models.ForeignKey(Rfidcard, unique=True)
     user    = models.ForeignKey(User)
@@ -77,8 +76,8 @@ class Timecard(models.Model):
     time. For instance, the all the times that a volunteer
     """
 
-    timecard_type = models.ForeignKey(TimecardType)
-    user          = models.ForeignKey(Profile, null=True, blank=True)
+    timecardtype  = models.ForeignKey(TimecardType)
+    profile       = models.ForeignKey(Profile)
     start_date    = models.DateField(help_text="The starting date for the timecard.")
     end_date      = models.DateField(help_text="The ending date for the timecard.")
     notes         = models.TextField(help_text="Notes on the timecard.", null=True, blank=True)
@@ -87,11 +86,11 @@ class Timecard(models.Model):
 
 
     class Meta:
-        ordering = ['user', 'start_date']
+        ordering = ['profile', 'start_date']
 
 
     def __unicode__(self):
-        return str(self.user) + ': ' + str(self.timecard_type) + ' - ' + str(self.start_date) + ' - ' + str(self.end_date)
+        return str(self.profile) + ': ' + str(self.timecardtype) + ' - ' + str(self.start_date) + ' - ' + str(self.end_date)
 
 
     def stampcard(self):
