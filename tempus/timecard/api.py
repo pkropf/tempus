@@ -22,6 +22,7 @@
 
 
 from tastypie.authentication import BasicAuthentication
+from tastypie.authorization import DjangoAuthorization
 from tastypie import fields
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from timecard.models import Rfidcard, Profile, TimecardType, Timecard, Stamp
@@ -76,10 +77,30 @@ class TimecardResource(ModelResource):
         resource_name = 'timecard'
         authentication = BasicAuthentication()
 
+    hours_today = fields.FloatField(readonly = True)
+    hours_total = fields.FloatField(readonly = True)
+    pairs       = fields.ListField(readonly = True)
+
+
+    def dehydrate_hours_today(self, bundle):
+        return bundle.obj.hours_today()
+
+
+    def dehydrate_hours_total(self, bundle):
+        return bundle.obj.hours()
+
+
+    def dehydrate_pairs(self, bundle):
+        return bundle.obj.pairs()
+
+
 
 class StampResource(ModelResource):
     class Meta:
         queryset = Stamp.objects.all()
         resource_name = 'stamp'
         authentication = BasicAuthentication()
+        authorization = DjangoAuthorization()
         ordering = ['stamp',]
+
+    timecard = fields.ToOneField(TimecardResource, 'timecard')

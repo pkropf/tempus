@@ -174,7 +174,7 @@ class Stamp(models.Model):
     clocks in and then clocks out.
     """
 
-    stamp = models.DateTimeField(help_text="Clock date and time.")
+    stamp = models.DateTimeField(auto_now_add = True, help_text="Clock date and time.")
     timecard = models.ForeignKey('Timecard')
 
 
