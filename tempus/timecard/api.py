@@ -56,6 +56,8 @@ class ProfileResource(ModelResource):
     user = fields.ForeignKey(UserResource, 'user')
     rfid = fields.ForeignKey(RfidcardResource, 'rfid')
 
+    timecards = fields.ListField(readonly = True)
+
     class Meta:
         queryset = Profile.objects.all()
         resource_name = 'profile'
@@ -65,6 +67,11 @@ class ProfileResource(ModelResource):
             'rfid': ALL_WITH_RELATIONS,
             }
         ordering = ['tag',]
+
+    def dehydrate_timecards(self, bundle):
+        return bundle.obj.timecard_urls()
+
+
 
 
 class TimecardTypeResource(ModelResource):

@@ -54,6 +54,8 @@ class Profile(models.Model):
         else:
             return str(self.user)
 
+    def timecard_urls(self):
+        return self.timecard_set.all()
 
 
 
@@ -72,8 +74,9 @@ class TimecardType(models.Model):
 
 
 class Timecard(models.Model):
-    """A timecard is used to collet the stamps for a particular period of
-    time. For instance, the all the times that a volunteer
+    """A timecard is used to collet the stamps for a particular period
+    of time. For instance, the all the times that a volunteer has
+    clocked in and out.
     """
 
     timecardtype  = models.ForeignKey(TimecardType)
