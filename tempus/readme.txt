@@ -1,0 +1,157 @@
+sample interactions via command line
+====================================
+
+lookup a profile
+----------------
+
+$ curl --dump-header - -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/profile/1/
+HTTP/1.0 200 OK
+Date: Tue, 11 Sep 2012 20:06:39 GMT
+Server: WSGIServer/0.1 Python/2.7.2
+Content-Type: application/json; charset=utf-8
+
+{"id": 1,
+ "image": null,
+ "resource_uri": "/api/v1/profile/1/",
+ "rfid": "/api/v1/rfidcard/1/",
+ "tag": "peter",
+ "user": "/api/v1/user/1/"}
+$
+
+
+lookup a profile by rfid
+------------------------
+
+$ curl --dump-header - -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/profile/?rfid__rfid=4C0020F73B
+HTTP/1.0 200 OK
+Date: Tue, 11 Sep 2012 20:02:01 GMT
+Server: WSGIServer/0.1 Python/2.7.2
+Content-Type: application/json; charset=utf-8
+
+{"meta": {"limit": 20,
+          "next": null,
+          "offset": 0,
+          "previous": null,
+          "total_count": 1},
+ "objects": [{"id": 1,
+              "image": null,
+              "resource_uri": "/api/v1/profile/1/",
+              "rfid": "/api/v1/rfidcard/1/",
+              "tag": "peter",
+              "user": "/api/v1/user/1/"}]}
+$ 
+
+
+lookup the timecard(s) for a profile
+------------------------------------
+
+$ curl --dump-header - -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/timecard/?profile=1
+HTTP/1.0 200 OK
+Date: Tue, 11 Sep 2012 20:16:20 GMT
+Server: WSGIServer/0.1 Python/2.7.2
+Content-Type: application/json; charset=utf-8
+
+{"meta": {"limit": 20,
+          "next": null,
+          "offset": 0,
+          "previous": null,
+          "total_count": 3},
+ "objects": [{"end_date": "2012-12-31",
+              "hours_today": 0,
+              "hours_total": 0,
+              "id": 4,
+              "notes": "",
+              "pairs": [["60: 2012-09-11 12:52:43.801171",
+                         null]],
+              "profile": "/api/v1/profile/1/",
+              "resource_uri": "/api/v1/timecard/4/",
+              "start_date": "2012-01-01",
+              "timecardtype": "/api/v1/timecardtype/5/",
+              "typename": "Faculty"},
+             {"end_date": "2013-08-30",
+              "hours_today": 0.041666666666666664,
+              "hours_total": 22.172500000000003,
+              "id": 1,
+              "notes": "",
+              "pairs": [["1: 2012-08-29 14:07:40",
+                         "2: 2012-08-29 22:08:07"],
+                        ["3: 2012-08-30 08:22:05",
+                         "4: 2012-08-30 22:22:22"],
+                        ["5: 2012-08-30 22:27:37",
+                         null],
+                        ["61: 2012-09-11 13:05:35.261861",
+                         null]],
+              "profile": "/api/v1/profile/1/",
+              "resource_uri": "/api/v1/timecard/1/",
+              "start_date": "2012-08-29",
+              "timecardtype": "/api/v1/timecardtype/4/",
+              "typename": "Staff"},
+             {"end_date": "2013-08-31",
+              "hours_today": 0.0005555555555555556,
+              "hours_total": 0.0005555555555555556,
+              "id": 2,
+              "notes": "",
+              "pairs": [["7: 2012-08-31 23:37:32.933185",
+                         null],
+                        ["58: 2012-09-11 12:48:51.878007",
+                         "59: 2012-09-11 12:48:54.664882"]],
+              "profile": "/api/v1/profile/1/",
+              "resource_uri": "/api/v1/timecard/2/",
+              "start_date": "2012-08-31",
+              "timecardtype": "/api/v1/timecardtype/2/",
+              "typename": "Create"}]}
+$
+
+
+stamp a timecard
+----------------
+
+
+$ curl --dump-header - -u peter:byteme -H "Content-Type: application/json" -X POST --data '{"timecard": "/api/v1/timecard/1/"}' http://localhost:8000/api/v1/stamp/
+HTTP/1.0 201 CREATED
+Date: Tue, 11 Sep 2012 20:05:35 GMT
+Server: WSGIServer/0.1 Python/2.7.2
+Content-Type: text/html; charset=utf-8
+Location: http://localhost:8000/api/v1/stamp/61/
+
+$
+
+
+
+curl --dump-header - -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/profile/?rfid__rfid=4C0020F7B
+curl --dump-header -u peter:byteme -H "Content-Type: application/json" -X POST --data '{"timecard": "/api/v1/timecard/1/"}' http://localhost:8000/api/v1/stamp/
+curl --dump-header -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/profile/1/
+curl -H "Accept: application/xml" http://localhost:8000/api/v1/timecardtype/1/
+curl -H "Accept: application/xml"http://localhost:8000/api/v1/timecardtype/1/
+curl -H "Accept: application/yaml" http://localhost:8000/api/v1/profile/1/
+curl -H "Accept: application/yaml" http://localhost:8000/api/v1/timecardtype/
+curl -H "Accept: application/yaml" http://localhost:8000/api/v1/timecardtype/1/
+curl -H "Accept: application/yaml" http://localhost:8000/api/v1/timecardtype/?limit=0
+curl -H "Accept: application/yaml" http://localhost:8000/api/v1/timecardtype/?limit=2
+curl -H "Accept: application/yzml" http://localhost:8000/api/v1/timecardtype/1/
+curl -H 'Accept: application/json' http://localhost:8000/api/v1/profile/
+curl -H http://localhost:8000/api/v1/profile/1/
+curl -u peter:byteme -H "Content-Type: application/json" -X POST --data '{"timecard": "/api/v1/timecard/1/"}' http://localhost:8000/api/v1/stamp/
+curl -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/profile/
+curl -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/profile/1/
+curl -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/profile/?rfid=4C0020F73B
+curl -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/profile/?rfid__rfid=4C0020F73B
+curl -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/profile/?user__username=peter
+curl -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/rfidcard/1/
+curl -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/timecard/
+curl -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/timecard/1/
+curl -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/timecard/?order_by=name 
+curl -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/timecard/?profile-_rfid__rfid=4C0020F73B
+curl -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/timecard/?profile=/api/v1/profile/1/
+curl -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/timecard/?profile=1
+curl -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/timecard/?profile=2
+curl -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/timecard/?profile=3
+curl -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/timecard/?profile=4
+curl -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/timecard/?profile=5
+curl -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/timecard/?profile__rfid__rfid=4C0020F73B
+curl -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/timecard/?rfid__rfid=4C0020F73B
+curl -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/timecardtype/
+curl -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/timecardtype/4/
+curl -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/timecardtype/?order_by=name
+curl -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/timecardtype/?order_by=name 
+curl -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/timecardtypes/
