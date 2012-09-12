@@ -20,4 +20,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Create your views here.
+
+from django.template import Context, loader
+from django.http import HttpResponse
+import datetime
+
+
+def index(request):
+    t = loader.get_template('timecard/index.html')
+    c = Context({})
+    return HttpResponse(t.render(c))
+
+
+def current_datetime(request):
+    return HttpResponse("<html><body>it is now: %s</body></html>" % str(datetime.datetime.now()))

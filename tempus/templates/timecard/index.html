@@ -1,0 +1,549 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+	<title>Timecard</title>
+	<link rel="stylesheet" href="css/smoothness/jquery-ui-1.7.2.custom.css" type="text/css" media="screen" charset="utf-8">
+	<link rel="stylesheet" href="css/smoothness/ui.spinner.css" type="text/css" media="screen" charset="utf-8">
+	<link rel="stylesheet" href="css/colorpicker.css" type="text/css" />
+	<link rel="stylesheet" href="css/jquery.treeview.css" type="text/css" />
+	<style>
+	body {
+		font-size:12px;
+		font-family: Verdana, Geneva, sans-serif;
+		color: #333;
+	}
+	#napkeeCanvas {
+		position:absolute;
+		left:0px;
+		top:0px;
+	}
+	.napkeeComponent {
+		position:absolute;
+		font-size:12px;
+		font-family: Verdana, Geneva, sans-serif;
+		white-space: nowrap;
+	}
+	.napkeeRelativeComponent {
+		position:absolute;
+		font-size:12px;
+		font-family: Verdana, Geneva, sans-serif;
+		white-space: nowrap;
+	}
+	
+	
+#tempus0{
+	left:32px;
+	top:31px;
+	width:484px;
+	height:491px;
+	z-index:0;
+	background-color:#FFF;
+}
+#tempus0Table{
+	border-color: #CCC;
+    border-width: 0 0 1px 1px;
+    border-style: solid;
+}
+
+#tempus0Table td {
+    border-color: #CCC;
+    border-width: 1px 1px 0 0;
+    border-style: solid;
+}
+
+#tempus0Table th{
+    border-color: #CCC;
+    border-width: 1px 1px 0 0;
+    border-style: solid;
+	padding-left:5px;
+}
+#tempus0Header {
+	height:15px;
+	text-align:left;
+}
+#tempus0Footer{
+	height:2px;
+	
+}
+
+	
+#tempus5{
+	left:15px;
+	top:35px;
+	width:130.9px;
+	height:19px;
+	z-index:1;
+	font-size: 12px;
+	font-style:normal;
+	font-weight:normal;
+	text-decoration:none;
+	text-align:left;
+	color:#000000;
+}
+	
+#tempus7container{
+	left:19px;
+	top:61px;
+	z-index:2;
+	width:242px;
+	height:366px;
+	overflow:auto;
+	border:1px solid #000;
+}
+#tempus7{
+	margin:0;
+	padding:0;
+	border-spacing:0px;
+	width:100%;
+	height:319px;
+	font-size: 12px;
+	font-style:normal;
+	font-weight:normal;
+	text-decoration:none;
+	text-align:left;
+}
+
+#tempus7 th{
+	background-color:#CCC;
+	height:20px;
+	padding-left:5px;
+}
+#tempus7 td{
+	padding-left:5px;
+	height:30px;
+	border:0px;
+}
+
+#tempus7 .verticalLine{
+	border-right:1px solid #000;
+}
+
+#tempus7 .horizontalLine{
+	border-bottom:1px solid #000;
+}
+#tempus7 td.odd{
+	background-color:#EEEEEE;
+}
+#tempus7 td.even{
+	background-color:#FFFFFF;
+}
+
+#tempus7 td.filler{
+	height:19px;
+}
+
+	
+#tempus18_0{
+	left:172px;
+	top:449px;
+	width:61px;
+	height: 27px;
+	z-index:0;
+	background-color:#FFFFFF;
+	color:#000000;
+	font-size: 12px;
+	font-style:normal;
+	font-weight:normal;
+	text-decoration:none;
+}
+	
+#tempus18_1{
+	left:258px;
+	top:449px;
+	width:55px;
+	height: 27px;
+	z-index:1;
+	background-color:#FFFFFF;
+	color:#000000;
+	font-size: 12px;
+	font-style:normal;
+	font-weight:normal;
+	text-decoration:none;
+}
+	
+#tempus10{
+	left:340px;
+	top:3px;
+	width:136.4px;
+	height:21px;
+	z-index:4;
+	font-size: 12px;
+	font-style:normal;
+	font-weight:normal;
+	text-decoration:none;
+	text-align:left;
+	color:#000000;
+}
+	
+#tempus14{
+	left:280px;
+	top:41px;
+	width:171px;
+	height:182px;
+	z-index:5;
+	border:0px solid;
+}
+
+#tempus14table{
+	left:312px;
+	top:72px;
+	width:171px;
+	height:182px;
+	z-index:6;
+	display:none;
+}
+
+#tempus14label{
+	font-size: 12px;
+	font-style:normal;
+	font-weight:normal;
+	text-decoration:none;
+	text-align:left;
+}
+	
+#tempus19_0{
+	left:276px;
+	top:359px;
+	z-index:0;
+	width:84px;
+	height:68px;
+	font-size: 12px;
+	font-style:normal;
+	font-weight:normal;
+	text-decoration:none;
+}
+	
+#tempus19_1{
+	left:399px;
+	top:359px;
+	z-index:1;
+	width:69px;
+	height:68px;
+	font-size: 12px;
+	font-style:normal;
+	font-weight:normal;
+	text-decoration:none;
+}
+	
+#tempus20container{
+	left:276px;
+	top:237px;
+	z-index:7;
+	width:185px;
+	height:107px;
+	overflow:hidden;
+	border:0px solid;
+}
+#tempus20{
+	margin:0;
+	padding:0;
+	border-spacing:0px;
+	width:100%;
+	height:97px;
+	font-size: 12px;
+	font-style:normal;
+	font-weight:normal;
+	text-decoration:none;
+	text-align:left;
+}
+
+#tempus20 th{
+	background-color:#CCC;
+	height:20px;
+	padding-left:5px;
+}
+#tempus20 td{
+	padding-left:5px;
+	height:20px;
+	border:0px;
+}
+
+#tempus20 .verticalLine{
+	border-right:1px solid #000;
+}
+
+#tempus20 .horizontalLine{
+	border-bottom:1px solid #000;
+}
+#tempus20 td.odd{
+	background-color:#EEEEEE;
+}
+#tempus20 td.even{
+	background-color:#FFFFFF;
+}
+
+#tempus20 td.filler{
+	height:0px;
+}
+
+	
+	</style>
+	<link rel="stylesheet" href="css/style.css" type="text/css" />
+	
+
+	<script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui-1.7.2.custom.min.js"></script>
+	<script type="text/javascript" src="js/ui.spinner.js"></script>
+	<script type="text/javascript" src="js/jquery.querystring.js"></script>
+	<script type="text/javascript" src="js/jquery.substitute.js"></script>
+	<script type="text/javascript" src="js/napkee.templater.js"></script>
+	<script type="text/javascript" src="js/napkee.tabs.js"></script>
+	<script type="text/javascript" src="js/jquery.sparkline.min.js"></script>
+	<script type="text/javascript" src="js/jquery.treeview.min.js"></script>
+	<script type="text/javascript" src="js/jquery.jmap.min.js"></script>
+	<script type="text/javascript" src="js/colorpicker.js"></script>
+	<script type="text/javascript" src="js/jquery.swfobject.1-0-5.min.js"></script>
+	<script type="text/javascript" src="js/jquery.tagcloud.min.js"></script>
+	<script type="text/javascript" src="js/jquery.iphone-switch.js"></script>
+	<script type="text/javascript" src="js/swfobject.js"></script>
+	<!--[if lt IE 7.]>
+		<script defer type="text/javascript" src="js/pngfix.js"></script>
+	<![endif]-->
+	
+	<script type="text/javascript" charset="utf-8">
+		$(document).ready(function(){
+			$(".napkeeVerticalScrollHandle").draggable({ containment: 'parent', axis: 'y', cursor: 'pointer'  });
+			$(".napkeeVerticalScrollArrowUp").click(function(){
+				var numericTop = ($(this).next().find("div").css("top").substring(0,$(this).next().find("div").css("top").length-2))*1;
+				if ($(this).next().find("div").css("top") == null || $(this).next().find("div").css("top") == "auto") {
+					numericTop = 0;
+				}
+				if (numericTop>0){
+					$(this).next().find("div").css("top",(numericTop-2)+"px");
+				}
+			});
+			
+			$(".napkeeVerticalScrollArrowDown").click(function(){
+				var numericTop = ($(this).prev().find("div").css("top").substring(0,$(this).prev().find("div").css("top").length-2))*1;
+				if ($(this).prev().find("div").css("top") == null || $(this).prev().find("div").css("top") == "auto") {
+					numericTop = 0;
+				}
+				if (numericTop+$(this).prev().find("div").height()<$(this).prev().height()-2){
+					$(this).prev().find("div").css("top",(numericTop+2)+"px");
+				}
+			});
+			$(".napkeeHorizontalScrollHandle").draggable({ containment: 'parent', axis: 'x', cursor: 'pointer'  });
+			$(".napkeeHorizontalScrollArrowLeft").click(function(){
+				var numericLeft = ($($(this).parent().next().children()[0]).find("div").css("left").substring(0,$($(this).parent().next().children()[0]).find("div").css("left").length-2))*1;
+				if ($($(this).parent().next().children()[0]).find("div").css("left") == null || $($(this).parent().next().children()[0]).find("div").css("left") == "auto") {
+					numericLeft = 0;
+				}
+				if (numericLeft>0){
+					$($(this).parent().next().children()[0]).find("div").css("left",(numericLeft-1)+"px");
+				}
+			});
+			
+			$(".napkeeHorizontalScrollArrowRight").click(function(){
+				var numericLeft = ($($(this).parent().prev().children()[0]).find("div").css("left").substring(0,$($(this).parent().prev().children()[0]).find("div").css("left").length-2))*1;
+				if ($($(this).parent().prev().children()[0]).find("div").css("left") == null || $($(this).parent().prev().children()[0]).find("div").css("left") == "auto") {
+					numericLeft = 0;
+				}
+				if (numericLeft+$($(this).parent().prev().children()[0]).find("div").width()<$($(this).parent().prev().children()[0]).find("div").parent().width()-2){
+					$($(this).parent().prev().children()[0]).find("div").css("left",(numericLeft+1)+"px");
+				}
+			});
+			
+//$("#tempus0").draggable();
+
+	
+$("#tempus5").click(function(event){
+	
+	event.stopPropagation();
+	event.preventDefault();
+
+});
+	
+/*$("#tempus7").flexigrid({
+	height: 366,
+	width:242,
+	nowrap: true,
+	resizable: false
+});
+*/
+	
+$("#tempus18_0").click(function(event){
+	
+	event.stopPropagation();
+	event.preventDefault();
+
+});
+	
+$("#tempus18_1").click(function(event){
+	
+	event.stopPropagation();
+	event.preventDefault();
+
+});
+	
+$("#tempus10").click(function(event){
+	
+	event.stopPropagation();
+	event.preventDefault();
+
+});
+	
+$("#tempus14").click(function(event){
+	
+	event.stopPropagation();
+	event.preventDefault();
+
+});
+	
+
+$("#tempus19_0").click(function(event){
+});
+
+	
+
+$("#tempus19_1").click(function(event){
+});
+
+	
+/*$("#tempus20").flexigrid({
+	height: 107,
+	width:185,
+	nowrap: true,
+	resizable: false
+});
+*/
+	
+		});
+	</script>
+	
+      <script type="text/javascript">
+      window.onload = function() {
+
+        var wsurim = "ws://localhost:9001";
+        webSocketm = new WebSocket(wsurim);
+        webSocketm.onmessage = function(e) { onMessage(e) };
+
+        function onMessage(e)
+        {
+          var fields = eval('(' + e.data + ')');
+
+          if ("heartbeat" in fields) {
+            var d = eval('(' + e.data + ')');
+            document.getElementById("tempus10").innerHTML = d.heartbeat.split(".")[0]
+          } else {
+            document.getElementById("log").innerHTML = e.data + "\n" + document.getElementById("log").innerHTML;
+          }
+        }
+      }
+      </script>
+
+</head>
+
+<body>
+
+		
+
+
+		
+<div id="tempus0" class="napkeeComponent napkeeTitlewindow">
+	<table id="tempus0Table" cellspacing="0" cellpadding="0" width="100%" height="100%">
+		<tr id="tempus0Header">
+			<th>Time Clock</th>
+		</tr>
+		<tr>
+			<td>
+<span id="tempus5" class="napkeeRelativeComponent napkeeLabel ">Timecard</span>
+	
+<div id="tempus7container" class="napkeeRelativeComponent napkeeDatagrid">
+	<table id="tempus7">
+		<thead>
+	<tr>
+		<th class="verticalLine">Date</th>
+		<th class="verticalLine">Clock In</th>
+		<th>Clock Out</th>
+</tr></thead>
+		<tbody><tr><td class="odd verticalLine">2012&ndash;02&ndash;24</td><td class="odd verticalLine">7:34am</td><td class="odd"></td></tr>
+<tr><td class="even verticalLine">2012&ndash;02&ndash;23</td><td class="even verticalLine">7:34am</td><td class="even">9:43am</td></tr>
+<tr><td class="odd verticalLine">2012&ndash;02&ndash;22</td><td class="odd verticalLine">9:02pm</td><td class="odd">11:43pm</td></tr>
+<tr><td class="even verticalLine">2012&ndash;02&ndash;21</td><td class="even verticalLine">7:34am</td><td class="even">8:43am</td></tr>
+<tr><td class="odd verticalLine">2012&ndash;02&ndash;20</td><td class="odd verticalLine">7:34am</td><td class="odd">9:43am</td></tr>
+<tr><td class="even verticalLine">2012&ndash;02&ndash;17</td><td class="even verticalLine">7:34am</td><td class="even">11:43am</td></tr>
+<tr><td class="odd verticalLine">2012&ndash;02&ndash;16</td><td class="odd verticalLine">7:34am</td><td class="odd">1:43pm</td></tr>
+<tr><td class="even verticalLine">2012&ndash;02&ndash;15</td><td class="even verticalLine">7:34am</td><td class="even">9:43am</td></tr>
+<tr><td class="odd verticalLine"></td><td class="odd verticalLine"></td><td class="odd"></td></tr>
+<tr><td class="even verticalLine"></td><td class="even verticalLine"></td><td class="even"></td></tr>
+<tr><td class="odd filler verticalLine"></td><td class="odd filler verticalLine"></td><td class="odd filler"></td></tr>
+</tbody>
+	</table>
+</div>
+	
+<button id="tempus18_0" type="button" class="napkeeRelativeComponent napkeeButton">Stamp</button>
+	
+<button id="tempus18_1" type="button" class="napkeeRelativeComponent napkeeButton">Clear</button>
+	
+<span id="tempus10" class="napkeeRelativeComponent napkeeLabel ">yyyy-mm-dd hh:mm:ss</span>
+	
+<img id="tempus14" src="images/imported/Barney Rubble_tempus14.jpg" class="napkeeRelativeComponent napkeeImage" />
+<table border="0" id="tempus14table" class="napkeeComponent napkeeImageTable" >
+	<tr>
+		<td align="center" valign="middle">
+			<span id="tempus14label" class="napkeeImageLabel"></span>
+		</td>
+	</tr>
+</table>
+
+	
+<div id="tempus19_0" class="napkeeRelativeComponent napkeeRadiobuttonGroup">
+	<input name="tempus19_0" id="tempus19_0i0" type="radio"/>
+	<label for="tempus19_0i0">Volunteer</label>
+	<br/>
+
+	<input name="tempus19_0" id="tempus19_0i1" type="radio"/>
+	<label for="tempus19_0i1">Create</label>
+	<br/>
+
+	<input name="tempus19_0" id="tempus19_0i2" type="radio"/>
+	<label for="tempus19_0i2">Youth</label>
+	<br/>
+
+
+</div>
+	
+<div id="tempus19_1" class="napkeeRelativeComponent napkeeRadiobuttonGroup">
+	<input name="tempus19_1" id="tempus19_1i0" type="radio"/>
+	<label for="tempus19_1i0">Faculty</label>
+	<br/>
+
+	<input name="tempus19_1" id="tempus19_1i1" type="radio" checked="true"/>
+	<label for="tempus19_1i1">Staff</label>
+	<br/>
+
+	<input name="tempus19_1" id="tempus19_1i2" type="radio"/>
+	<label for="tempus19_1i2">Studio</label>
+	<br/>
+
+
+</div>
+	
+<div id="tempus20container" class="napkeeRelativeComponent napkeeDatagrid">
+	<table id="tempus20">
+		
+		<tbody><tr><td class="even">Barney Rubble</td></tr>
+<tr><td class="odd">Start Date:</td><td class="odd">2012&ndash;02&ndash;15</td></tr>
+<tr><td class="even">End Date:</td><td class="even">2012&ndash;06&ndash;30</td></tr>
+<tr><td class="odd">Hours Today:</td><td class="odd">1.5</td></tr>
+<tr><td class="even">Hours Total:</td><td class="even">76.32</td></tr>
+</tbody>
+	</table>
+</div>
+	</td>
+		</tr>
+		<tr id="tempus0Footer">
+			<td></td>
+		</tr>
+	</table>
+</div>
+	
+	
+
+
+    <pre id="log"></pre>
+</body>
+</html>

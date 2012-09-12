@@ -49,10 +49,7 @@ class Profile(models.Model):
 
 
     def __unicode__(self):
-        if len(self.tag):
-            return str(self.user) + ' - ' + self.tag
-        else:
-            return str(self.user)
+        return str(self.user)
 
     def timecard_urls(self):
         return self.timecard_set.all()

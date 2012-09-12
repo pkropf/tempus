@@ -1,0 +1,10 @@
+#sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 15em;
+}
+
+#content {
+    margin-left: 10em;
+}

@@ -25,6 +25,7 @@ from django.conf.urls.defaults import patterns, include, url
 from timecard.api import RfidcardResource, UserResource, ProfileResource, TimecardTypeResource, TimecardResource, StampResource
 from tastypie.api import Api
 
+
 v1_api = Api(api_name = 'v1')
 v1_api.register(RfidcardResource())
 v1_api.register(UserResource())
@@ -39,7 +40,8 @@ from django.contrib import admin
 admin.autodiscover()
 
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     # Examples:
     # url(r'^$', 'tempus.views.home', name='home'),
     # url(r'^tempus/', include('tempus.foo.urls')),
@@ -50,4 +52,5 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
     (r'^api/', include(v1_api.urls)),
+    (r'^timecard/', include('timecard.urls')),
 )
