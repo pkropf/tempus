@@ -165,18 +165,18 @@ class BroadcastRfidFactory(WebSocketServerFactory):
 
     def register(self, client):
         if not client in self.clients:
-            print "registered client " + client.peerstr
+            log.msg("registered client %s" % client.peerstr)
             self.clients.append(client)
 
     def unregister(self, client):
         if client in self.clients:
-            print "unregistered client " + client.peerstr
+            log.msg("unregistered client %s" % client.peerstr)
             self.clients.remove(client)
 
     def broadcast(self, msg):
-        print "broadcasting message '%s' .." % msg
+        #log.msg("broadcasting message '%s' .." % msg)
         for c in self.clients:
-            print "send to " + c.peerstr
+            #log.msg("send to %s" % c.peerstr)
             c.sendMessage(msg)
 
 
