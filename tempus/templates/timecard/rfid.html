@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block page_script %}
+<script type="text/javascript">
+    window.onload = function() {
+
+        var wsurim = "{{ RFID_URL }}";
+        webSocketm = new WebSocket(wsurim);
+        webSocketm.onmessage = function(e) { onMessage(e) };
+
+        function onMessage(e)
+        {
+            var fields = eval('(' + e.data + ')');
+    
+            if ("heartbeat" in fields) {
+                document.getElementById("heartbeat").innerHTML = fields.heartbeat.split(".")[0]
+
+            } else {
+                rfid_table = "<table>"
+                rfid_table = rfid_table + "<tr><td>port:</td><td>" + fields.port + "</td></tr>"
+                rfid_table = rfid_table + "<tr><td>baurdate:</td><td>" + fields.baudrate + "</td></tr>"
+                rfid_table = rfid_table + "<tr><td>connection status:</td><td>" + fields.connection_status + "</td></tr>"
+                rfid_table = rfid_table + "<tr><td>connection time:</td><td>" + fields.connection_stamp + "</td></tr>"
+                rfid_table = rfid_table + "<tr><td>rfid:</td><td>" + fields.rfid + "</td></tr>"
+                rfid_table = rfid_table + "<tr><td>rfid time:</td><td>" + fields.rfid_stamp + "</td></tr>"
+
+                document.getElementById("log").innerHTML = rfid_table
+            }
+        }
+    }
+</script>
+
+{% endblock %}
+
+
+{% block sidebar %}
+sidebar
+{% endblock %}
+
+
+{% block content %}
+    <pre id="heartbeat"></pre>
+    <pre id="log"></pre>
+{% endblock %}

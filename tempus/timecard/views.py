@@ -23,12 +23,19 @@
 
 from django.template import RequestContext, loader
 from django.http import HttpResponse
+from django.conf import settings
 import datetime
 
 
 def index(request):
     t = loader.get_template('timecard/index.html')
     c = RequestContext(request, {})
+    return HttpResponse(t.render(c))
+
+
+def rfid(request):
+    t = loader.get_template('timecard/rfid.html')
+    c = RequestContext(request, {'RFID_URL': settings.RFID_URL})
     return HttpResponse(t.render(c))
 
 

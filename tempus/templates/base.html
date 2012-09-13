@@ -3,11 +3,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
 <head>
-    <link rel="stylesheet" type="text/css" href="/site_media/style.css" />
-    <link rel="stylesheet" type="text/css" href="/site_media/print.css" media="print" /> 
-    <script type="text/javascript" src="/site_media/jquery-1.4.2.min.js"></script> 
-    <script type="text/javascript" src="/site_media/jquery.tablesorter.js"></script>
+    <link rel="stylesheet" type="text/css" href="/media/style.css" />
+    <link rel="stylesheet" type="text/css" href="/media/print.css" media="print" /> 
     {% block page_css %}
+    {% endblock %}
+
+    <script type="text/javascript" src="/media/jquery-1.4.2.min.js"></script> 
+    <script type="text/javascript" src="/media/jquery.tablesorter.js"></script>
+    {% block page_script %}
     {% endblock %}
 <title>{% block title %}The Crucible Tools{% endblock %}</title>
 
@@ -15,7 +18,7 @@
 
 <body>
     <div id="header">
-      <img src="/site_media/logo.png" alt="The Crucible"/>{% block page_header %}{% endblock %}
+      <img src="/media/logo.png" alt="The Crucible"/>{% block page_header %}{% endblock %}
       {% block breadcrumbs %}{% endblock %}
     </div>
 

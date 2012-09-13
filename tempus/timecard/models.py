@@ -40,7 +40,6 @@ class Rfidcard(models.Model):
 
 
 
-
 class Profile(models.Model):
     """collections of objects that identify a user
     note that the image should be of 1:1.33 ratio for best viewing
@@ -78,7 +77,6 @@ class TimecardType(models.Model):
 
     def __unicode__(self):
         return self.name
-
 
 
 
@@ -168,7 +166,6 @@ class Timecard(models.Model):
         h = sum([(c.stamp - o.stamp).seconds / 60. / 60. for o, c in self.pairs(day) if c != None])
 
         return h
-
 
 
 
