@@ -51,6 +51,9 @@ class ProfileResource(ModelResource):
         authentication = BasicAuthentication()
         filtering = {
             'rfid': ALL_WITH_RELATIONS,
+            'first_name': ALL,
+            'last_name': ALL,
+            'email': ALL,
             }
         ordering = ['tag',]
 
