@@ -41,6 +41,9 @@ class Rfidcard(models.Model):
 
 
 class Profile(models.Model):
+    """collections of objects that identify a user
+    note that the image should be of 1:1.33 ratio for best viewing
+    """
     tag     = models.CharField(max_length=32, help_text='Tag to identify this profile.')
     rfid    = models.ForeignKey(Rfidcard, unique=True)
     user    = models.ForeignKey(User)

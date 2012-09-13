@@ -480,7 +480,7 @@ $("#tempus19_1").click(function(event){
 	
 <span id="tempus10" class="napkeeRelativeComponent napkeeLabel ">yyyy-mm-dd hh:mm:ss</span>
 	
-<img id="tempus14" src="images/imported/Barney Rubble_tempus14.jpg" class="napkeeRelativeComponent napkeeImage" />
+<img id="tempus14" src="{{ STATIC_URL }}images/blank.jpg" alt="blank image" class="napkeeRelativeComponent napkeeImage" />
 <table border="0" id="tempus14table" class="napkeeComponent napkeeImageTable" >
 	<tr>
 		<td align="center" valign="middle">
@@ -491,45 +491,27 @@ $("#tempus19_1").click(function(event){
 
 	
 <div id="tempus19_0" class="napkeeRelativeComponent napkeeRadiobuttonGroup">
-	<input name="tempus19_0" id="tempus19_0i0" type="radio"/>
-	<label for="tempus19_0i0">Volunteer</label>
-	<br/>
-
-	<input name="tempus19_0" id="tempus19_0i1" type="radio"/>
-	<label for="tempus19_0i1">Create</label>
-	<br/>
-
-	<input name="tempus19_0" id="tempus19_0i2" type="radio"/>
-	<label for="tempus19_0i2">Youth</label>
-	<br/>
-
-
-</div>
-	
-<div id="tempus19_1" class="napkeeRelativeComponent napkeeRadiobuttonGroup">
-	<input name="tempus19_1" id="tempus19_1i0" type="radio"/>
-	<label for="tempus19_1i0">Faculty</label>
-	<br/>
-
-	<input name="tempus19_1" id="tempus19_1i1" type="radio" checked="true"/>
-	<label for="tempus19_1i1">Staff</label>
-	<br/>
-
-	<input name="tempus19_1" id="tempus19_1i2" type="radio"/>
-	<label for="tempus19_1i2">Studio</label>
-	<br/>
-
+<table id="timecard_types">
+  <tbody>
+  <tr><td><input name="tempus19_0" id="tempus19_0i0" type="radio"/><label for="tempus19_0i0">Volunteer</label></td>
+      <td><input name="tempus19_0" id="tempus19_0i0" type="radio"/><label for="tempus19_0i1">Create</label></td></tr>
+  <tr><td><input name="tempus19_0" id="tempus19_0i0" type="radio"/><label for="tempus19_0i2">Youth</label></td>
+      <td><input name="tempus19_0" id="tempus19_0i0" type="radio"/><label for="tempus19_0i3">Staff</label></td></tr>
+  <tr><td><input name="tempus19_0" id="tempus19_0i0" type="radio"/><label for="tempus19_0i4">Faculty</label></td>
+      <td><input name="tempus19_0" id="tempus19_0i0" type="radio"/><label for="tempus19_0i5">Studio</label></td></tr>
+      </tbody>
+</table>
 
 </div>
 	
 <div id="tempus20container" class="napkeeRelativeComponent napkeeDatagrid">
 	<table id="tempus20">
 		
-		<tbody><tr><td class="even">Barney Rubble</td></tr>
-<tr><td class="odd">Start Date:</td><td class="odd">2012&ndash;02&ndash;15</td></tr>
-<tr><td class="even">End Date:</td><td class="even">2012&ndash;06&ndash;30</td></tr>
-<tr><td class="odd">Hours Today:</td><td class="odd">1.5</td></tr>
-<tr><td class="even">Hours Total:</td><td class="even">76.32</td></tr>
+		<tbody><tr><td name="timecard_name" class="even"></td></tr>
+<tr><td class="odd">Start Date:</td><td name="timecard_start_date" class="odd"></td></tr>
+<tr><td class="even">End Date:</td><td name="timecard_end_date" class="even"></td></tr>
+<tr><td class="odd">Hours Today:</td><td name="timecard_hours_today" class="odd"></td></tr>
+<tr><td class="even">Hours Total:</td><td name="timecard_hours_total" class="even"></td></tr>
 </tbody>
 	</table>
 </div>
