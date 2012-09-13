@@ -24,7 +24,6 @@
 from django.db import models
 from django.contrib import admin
 from datetime import datetime, date, timedelta
-from django.contrib.auth.models import User
 
 
 class Rfidcard(models.Model):
@@ -44,18 +43,26 @@ class Profile(models.Model):
     """collections of objects that identify a user
     note that the image should be of 1:1.33 ratio for best viewing
     """
-    tag     = models.CharField(max_length=32, help_text='Tag to identify this profile.')
-    rfid    = models.ForeignKey(Rfidcard, unique=True)
-    user    = models.ForeignKey(User)
-    image   = models.ImageField(upload_to='profile/%Y/%m/%d', null=True, blank=True)
-    #image  = models.ImageField(upload_to='profile/%Y/%m/%d', height_field='height', width_field='width', null=True, blank=True)
+    first_name           = models.CharField(max_length=64, help_text="Person's first name.")
+    last_name            = models.CharField(max_length=64, help_text="Person's last name.")
+    rfid                 = models.ForeignKey(Rfidcard, unique=True, help_text="Person's id card.")
+    image                = models.ImageField(upload_to='profile/%Y/%m/%d', null=True, blank=True)
+    email                = models.EmailField(help_text="User's email address.", null=True, blank=True)
+    fm_id                = models.IntegerField(db_index=True, help_text="FileMaker Contact ID.", null=True, blank=True)
+    nick_name            = models.CharField(max_length=32, help_text="Person's nick name.", null=True, blank=True)
+    cell_phone           = models.CharField(max_length=15, null=True, blank=True)
+    home_phone           = models.CharField(max_length=15, null=True, blank=True)
+    work_phone           = models.CharField(max_length=15, null=True, blank=True)
+    emergency_first_name = models.CharField(max_length=64, help_text="Name of the emergency contact for the person.", null=True, blank=True)
+    emergency_last_name  = models.CharField(max_length=64, help_text="Name of the emergency contact for the person.", null=True, blank=True)
+    emergency_phone      = models.CharField(max_length=15, help_text="Phone number of the emergency contact for the person.", null=True, blank=True)
 
 
     def __unicode__(self):
-        return str(self.user)
+        return '%s %s' % (self.first_name, self.last_name)
 
     def timecard_urls(self):
-        return self.timecard_set.all()
+        return [(t.timecardtype.name, '/api/v1/timecard/%d/' % t.pk) for t in self.timecard_set.order_by('timecardtype__name')]
 
 
 

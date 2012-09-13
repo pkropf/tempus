@@ -22,14 +22,13 @@
 
 
 from django.conf.urls.defaults import patterns, include, url
-from timecard.api import RfidcardResource, UserResource, ProfileResource, TimecardTypeResource, TimecardResource, StampResource
+from timecard.api import RfidcardResource, ProfileResource, TimecardTypeResource, TimecardResource, StampResource
 from tastypie.api import Api
 from django.conf import settings
 
 
 v1_api = Api(api_name = 'v1')
 v1_api.register(RfidcardResource())
-v1_api.register(UserResource())
 v1_api.register(ProfileResource())
 v1_api.register(TimecardTypeResource())
 v1_api.register(TimecardResource())

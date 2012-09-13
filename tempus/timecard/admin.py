@@ -24,9 +24,9 @@ from django.contrib import admin
 
 
 class ProfileAdmin(admin.ModelAdmin):
-    list_display  = ('user', 'rfid',)
-    ordering      = ('user', 'rfid',)
-    search_fields = ('user__first_name', 'user__last_name', 'rfid',)
+    list_display  = ('first_name', 'last_name', 'email', 'rfid',)
+    ordering      = ('first_name', 'last_name', 'email', 'rfid',)
+    search_fields = ('first_name', 'last_name', 'email', 'rfid',)
 
 admin.site.register(Profile, ProfileAdmin)
 

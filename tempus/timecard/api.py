@@ -40,22 +40,9 @@ class RfidcardResource(ModelResource):
             }
 
 
-class UserResource(ModelResource):
-    class Meta:
-        queryset = User.objects.all()
-        resource_name = 'user'
-        authentication = BasicAuthentication()
-        excludes = ['password', 'is_active', 'is_staff', 'is_superuser',]
-        allowed_methods = ['get',]
-        filtering = {
-            'username': ALL,
-        }
-
-
 class ProfileResource(ModelResource):
-    user = fields.ForeignKey(UserResource, 'user')
     rfid = fields.ForeignKey(RfidcardResource, 'rfid')
-
+    #timecard = fields.ToManyField('timecard.api.TimecardResource', 'timecard')
     timecards = fields.ListField(readonly = True)
 
     class Meta:
@@ -63,7 +50,6 @@ class ProfileResource(ModelResource):
         resource_name = 'profile'
         authentication = BasicAuthentication()
         filtering = {
-            'user': ALL_WITH_RELATIONS,
             'rfid': ALL_WITH_RELATIONS,
             }
         ordering = ['tag',]
