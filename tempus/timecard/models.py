@@ -24,22 +24,8 @@
 from django.db import models
 from django.contrib import admin
 from datetime import datetime, date, timedelta
+from django.core.exceptions import ValidationError
 
-
-class TimecardInactive(Exception):
-    def __init__(self, timecard):
-        self.timecard = timecard
-
-    def __str__(self):
-        return str(self.timecard)
-
-
-class TimecardExpired(Exception):
-    def __init__(self, timecard):
-        self.timecard = timecard
-
-    def __str__(self):
-        return str(self.timecard)
 
 
 class Rfidcard(models.Model):
@@ -199,16 +185,24 @@ class Stamp(models.Model):
         return str(self.id) + ': ' + str(self.stamp)
 
 
+    def clean(self, *args, **kwargs):
+        if not self.id:
+            if self.timecard.start_date > self.stamp.date():
+                raise ValidationError('Timecard in inactive: %s' % self.timecard)
+
+            if self.stamp.date() > self.timecard.end_date:
+                raise ValidationError('Timecard has expired: %s' % self.timecard)
+
+        super(Stamp, self).clean(*args, **kwargs)
+
+
+    def full_clean(self, *args, **kwargs):
+        return self.clean(*args, **kwargs)
+
+
     def save(self):
         if not self.id:
-            now = datetime.now()
+            self.stamp = datetime.now()
 
-            if self.timecard.start_date > now.date():
-                raise TimecardInactive(self.timecard)
-
-            if now.date() > self.timecard.end_date:
-                raise TimecardExpired(self.timecard)
-
-            self.stamp = now
-
+        self.full_clean()
         super(Stamp, self).save()
