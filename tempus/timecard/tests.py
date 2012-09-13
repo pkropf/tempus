@@ -28,7 +28,7 @@ import warnings
 from django.contrib.auth.models import User
 from tastypie.test import ResourceTestCase
 from django.utils import unittest
-from timecard.models import Rfidcard, Profile, TimecardType
+from tempus.timecard.models import Rfidcard, Profile, TimecardType
 
 
 class RfidcardResourceTest(ResourceTestCase):

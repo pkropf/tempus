@@ -19,7 +19,7 @@
 # THE SOFTWARE.
 
 
-from models import Profile, Rfidcard, TimecardType, Timecard, Stamp
+from tempus.timecard.models import Profile, Rfidcard, TimecardType, Timecard, Stamp
 from django.contrib import admin
 
 

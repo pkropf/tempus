@@ -26,6 +26,22 @@ from django.contrib import admin
 from datetime import datetime, date, timedelta
 
 
+class TimecardInactive(Exception):
+    def __init__(self, timecard):
+        self.timecard = timecard
+
+    def __str__(self):
+        return str(self.timecard)
+
+
+class TimecardExpired(Exception):
+    def __init__(self, timecard):
+        self.timecard = timecard
+
+    def __str__(self):
+        return str(self.timecard)
+
+
 class Rfidcard(models.Model):
     """0100E2850E68"""
 
@@ -107,15 +123,7 @@ class Timecard(models.Model):
         """Add a stamp to the card.
         """
 
-        now = datetime.now()
-
-        if self.start_date > now:
-            raise TimecardInactive
-
-        if now > self.end_date:
-            raise TimecardExpired
-
-        Stamp(stamp = now, timecard = self).save()
+        Stamp(timecard = self).save()
 
 
     def hours_today(self):
@@ -183,9 +191,24 @@ class Stamp(models.Model):
     clocks in and then clocks out.
     """
 
-    stamp = models.DateTimeField(auto_now_add = True, help_text="Clock date and time.")
+    stamp = models.DateTimeField(help_text="Clock date and time.")
     timecard = models.ForeignKey('Timecard')
 
 
     def __unicode__(self):
         return str(self.id) + ': ' + str(self.stamp)
+
+
+    def save(self):
+        if not self.id:
+            now = datetime.now()
+
+            if self.timecard.start_date > now.date():
+                raise TimecardInactive(self.timecard)
+
+            if now.date() > self.timecard.end_date:
+                raise TimecardExpired(self.timecard)
+
+            self.stamp = now
+
+        super(Stamp, self).save()

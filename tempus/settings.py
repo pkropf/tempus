@@ -26,6 +26,7 @@ import os
 
 
 DEBUG = True
+#DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 TOPDIR = os.path.abspath(os.path.dirname(__file__))
 

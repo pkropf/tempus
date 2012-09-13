@@ -22,7 +22,7 @@
 
 
 from django.conf.urls.defaults import patterns, include, url
-from views import current_datetime, index
+from tempus.timecard.views import current_datetime, index
 
 
 urlpatterns = patterns(

@@ -25,8 +25,10 @@ from tastypie.authentication import BasicAuthentication
 from tastypie.authorization import DjangoAuthorization
 from tastypie import fields
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
-from timecard.models import Rfidcard, Profile, TimecardType, Timecard, Stamp
+from tempus.timecard.models import Rfidcard, Profile, TimecardType, Timecard, Stamp, TimecardInactive, TimecardExpired
 from django.contrib.auth.models import User
+from tastypie.exceptions import ImmediateHttpResponse
+from tastypie.http import HttpApplicationError
 
 
 class RfidcardResource(ModelResource):
@@ -114,3 +116,15 @@ class StampResource(ModelResource):
         ordering = ['stamp',]
 
     timecard = fields.ToOneField(TimecardResource, 'timecard')
+
+    def obj_create(self, bundle, **kwargs):
+        try:
+            b = super(StampResource, self).obj_create(bundle, **kwargs)
+
+        except TimecardInactive as te:
+            raise ImmediateHttpResponse(HttpApplicationError('Timecard is inactive: %s' % str(te.timecard)))
+
+        except TimecardExpired as te:
+            raise ImmediateHttpResponse(HttpApplicationError('Timecard has expired: %s' % str(te.timecard)))
+
+        return b
