@@ -21,8 +21,8 @@
 # THE SOFTWARE.
 
 
-from tastypie.authentication import BasicAuthentication
-from tastypie.authorization import DjangoAuthorization
+from tastypie.authentication import Authentication, BasicAuthentication
+from tastypie.authorization import Authorization, DjangoAuthorization
 from tastypie import fields
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tempus.timecard.models import Rfidcard, Profile, TimecardType, Timecard, Stamp
@@ -112,8 +112,10 @@ class StampResource(ModelResource):
     class Meta:
         queryset = Stamp.objects.all()
         resource_name = 'stamp'
-        authentication = BasicAuthentication()
-        authorization = DjangoAuthorization()
+        # authentication = BasicAuthentication()
+        authentication = Authentication()
+        #authorization = DjangoAuthorization()
+        authorization = Authorization()
         ordering = ['stamp',]
 
     timecard = fields.ToOneField(TimecardResource, 'timecard')

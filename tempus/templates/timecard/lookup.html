@@ -45,7 +45,8 @@
         document.getElementById("timecards").innerHTML = cards;
 
         if (count == 2) {
-            $(".timecard_select").prop("checked", true);
+            // $(".timecard_select").prop("checked", true);
+            $("form #timecard_select").attr("checked", true);
             lookup_timecard(timecards[0][1]);
         }
     }
@@ -90,6 +91,7 @@
 
         document.getElementById("stamps").innerHTML = stamps;
     }
+
 
     function lookup_profile_rfid(id) {
         new $.getJSON("/api/v1/profile/?rfid__rfid=" + id,
@@ -159,4 +161,27 @@
     <div id="timecards"></div>
     <div id="details"></div>
     <div id="stamps"></div>
+    <div id="stamp_card">
+        <form action="/" id="stampit">
+            <input type="submit" value="Stamp" />
+        </form>
+    </div>
+
+    <script>
+    // $ curl --dump-header - -u peter:byteme -H "Content-Type: application/json" -X POST --data '{"timecard": "/api/v1/timecard/1/"}' http://localhost:8000/api/v1/stamp/
+    $("#stampit").submit(function(event) {
+        event.preventDefault();
+        //$.post("http://localhost:8000/api/v1/stamp/", {"timecard": active_timecard});
+        $.ajax({
+            url: "http://localhost:8000/api/v1/stamp/",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({"timecard": active_timecard}),
+            dataType: 'json',
+            processData: false
+            }).done(function(msg) {
+                lookup_timecard(active_timecard);
+            });
+    });
+    </script>
 {% endblock %}
