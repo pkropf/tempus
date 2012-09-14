@@ -17,13 +17,17 @@
     }
 
     function show_timecards(profile) {
-        var timecards = "<form>";
+        var timecards = "<form><table>";
+        var count = 1;
+        var heads = ["<td>", "<tr><td>"];
+        var tails = ["</td></tr>", "</td>"];
 
         $.each(profile.timecards, function(i, item) {
-            timecards = timecards + "<input type=\"radio\" name=\"timecard\" onclick=\"lookup_timecard('" + item[1] + "')\"/>" + item[0] + "<br/>";
+            timecards = timecards + heads[count % 2] + "<input type=\"radio\" name=\"timecard\" onclick=\"lookup_timecard('" + item[1] + "')\"/>" + item[0] + tails[count % 2];
+            count = count + 1;
         });
 
-        timecards = timecards + "</form>";
+        timecards = timecards + "</table></form>";
 
         document.getElementById("timecards").innerHTML = timecards;
     }
