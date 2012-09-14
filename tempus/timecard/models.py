@@ -165,7 +165,7 @@ class Timecard(models.Model):
 
         h = sum([(c.stamp - o.stamp).seconds / 60. / 60. for o, c in self.pairs(day) if c != None])
 
-        return h
+        return float("%0.2f" % h)
 
 
 
