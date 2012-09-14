@@ -33,5 +33,6 @@ urlpatterns = patterns(
 
     url(r'^$', index),
     url(r'^rfid/', rfid),
+    url(r'^lookup/', lookup),
     url(r'^datetime/', current_datetime),
 )

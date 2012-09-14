@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block page_script %}
+<script type="text/javascript">
+    var empty_timecard = {"start_date": "",
+                          "end_date": "",
+                          "hours_today": "",
+                          "hours_total": ""
+                         };
+
+    function show_error(msg) {
+        document.getElementById("errr").innerHTML = msg;
+    }
+
+    function show_name(profile) {
+        document.getElementById("profile").innerHTML = profile.first_name + " " + profile.last_name;
+    }
+
+    function show_timecards(profile) {
+        var timecards = "<form>";
+
+        $.each(profile.timecards, function(i, item) {
+            timecards = timecards + "<input type=\"radio\" name=\"timecard\" onclick=\"lookup_timecard('" + item[1] + "')\"/>" + item[0] + "<br/>";
+        });
+
+        timecards = timecards + "</form>";
+
+        document.getElementById("timecards").innerHTML = timecards;
+    }
+
+    function show_details(timecard) {
+        var details = "<table>";
+
+        details = details + "<tr><td>Start Date:</td><td>"  + timecard.start_date + "</td></tr>";
+        details = details + "<tr><td>End Date:</td><td>"    + timecard.end_date + "</td></tr>";
+        details = details + "<tr><td>Hours Today:</td><td>" + timecard.hours_today + "</td></tr>";
+        details = details + "<tr><td>Hours Total:</td><td>" + timecard.hours_total + "</td></tr>";
+        details = details + "</table>";
+
+        document.getElementById("details").innerHTML = details;
+    }
+
+    function lookup_profile_rfid(id) {
+        new $.getJSON("/api/v1/profile/?rfid__rfid=" + id,
+                      {},
+                      function(data) {
+                          show_name(data.objects[0]);
+                          show_timecards(data.objects[0]);
+                          show_details(empty_timecard);
+                      })
+
+        .error(function(jqXHR, textStatus, errorThrown) {
+            show_error(errorThrown);
+        })
+    }
+
+    function lookup_timecard(uri) {
+        new $.getJSON(uri,
+                      {},
+                      function(data) {
+                          show_details(data);
+                      })
+
+        .error(function(jqXHR, textStatus, errorThrown) {
+            show_error(errorThrown);
+        })
+    }
+
+
+    window.onload = function() {
+
+        var wsurim = "{{ RFID_URL }}";
+        webSocketm = new WebSocket(wsurim);
+        webSocketm.onmessage = function(e) { onMessage(e) };
+
+        function onMessage(e)
+        {
+            var fields = eval("(" + e.data + ")");
+    
+            if ("heartbeat" in fields) {
+                document.getElementById("heartbeat").innerHTML = fields.heartbeat.split(".")[0]
+
+            } else {
+                // document.getElementById("rfid").innerHTML = e.data;
+
+                lookup_profile_rfid(fields.rfid);
+            }
+        }
+        show_details(empty_timecard);
+    }
+</script>
+
+{% endblock %}
+
+
+{% block sidebar %}
+{% endblock %}
+
+
+{% block content %}
+    <div id="error"></div>
+    <div id="heartbeat"></div>
+    <div id="rfid"></div>
+    <div id="profile"></div>
+    <div id="timecards"></div>
+    <div id="details"></div>
+{% endblock %}

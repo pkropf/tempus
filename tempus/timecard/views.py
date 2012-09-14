@@ -39,5 +39,11 @@ def rfid(request):
     return HttpResponse(t.render(c))
 
 
+def lookup(request):
+    t = loader.get_template('timecard/lookup.html')
+    c = RequestContext(request, {'RFID_URL': settings.RFID_URL})
+    return HttpResponse(t.render(c))
+
+
 def current_datetime(request):
     return HttpResponse("<html><body>it is now: %s</body></html>" % str(datetime.datetime.now()))
