@@ -132,10 +132,10 @@ class Timecard(models.Model):
         p = []
         c = None
         if day:
-            stamps = self.stamp_set.filter(stamp__year = day.year, stamp__month = day.month, stamp__day = day.day).order_by('-stamp')
+            stamps = self.stamp_set.filter(stamp__year = day.year, stamp__month = day.month, stamp__day = day.day).order_by('stamp')
 
         else:
-            stamps = self.stamp_set.order_by('-stamp')
+            stamps = self.stamp_set.order_by('stamp')
 
 
         for s in stamps:
