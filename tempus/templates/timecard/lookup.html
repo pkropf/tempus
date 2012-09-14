@@ -12,10 +12,12 @@
 
     function activate_timecard(timecard) {
         active_timecard = timecard;
+	$("input[type=submit]").removeAttr("disabled");
     }
 
     function deactivate_timecard() {
         active_timecard = null;
+	$("input[type=submit]").attr("disabled", "disabled");
     }
 
     function clear_details() {
