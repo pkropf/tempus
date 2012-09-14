@@ -10,11 +10,19 @@
     var empty_pairs = [["", ""]];
     var active_timecard = null;
 
+    function activate_timecard(timecard) {
+        active_timecard = timecard;
+    }
+
+    function deactivate_timecard() {
+        active_timecard = null;
+    }
+
     function clear_details() {
         show_stamps(empty_pairs);
         show_details(empty_timecard);
         show_image("{{ STATIC_URL }}/images/blank.jpg");
-        active_timecard = null;
+        deactivate_timecard();
     }
 
     function show_error(msg) {
@@ -112,7 +120,7 @@
         new $.getJSON(uri,
                       {},
                       function(data) {
-                          active_timecard = uri;
+                          activate_timecard(uri);
                           show_details(data);
                           show_stamps(data.pairs);
                       })
@@ -171,17 +179,19 @@
     // $ curl --dump-header - -u peter:byteme -H "Content-Type: application/json" -X POST --data '{"timecard": "/api/v1/timecard/1/"}' http://localhost:8000/api/v1/stamp/
     $("#stampit").submit(function(event) {
         event.preventDefault();
-        //$.post("http://localhost:8000/api/v1/stamp/", {"timecard": active_timecard});
-        $.ajax({
-            url: "http://localhost:8000/api/v1/stamp/",
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify({"timecard": active_timecard}),
-            dataType: 'json',
-            processData: false
+        if (active_timecard) {
+            //$.post("http://localhost:8000/api/v1/stamp/", {"timecard": active_timecard});
+            $.ajax({
+                url: "http://localhost:8000/api/v1/stamp/",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({"timecard": active_timecard}),
+                dataType: 'json',
+		processData: false
             }).done(function(msg) {
                 lookup_timecard(active_timecard);
             });
+	}
     });
     </script>
 {% endblock %}
