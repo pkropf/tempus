@@ -27,7 +27,7 @@
         clear_stamps();
         show_summary(empty_timecard);
         clear_cardtypes();
-        show_image("{{ STATIC_URL }}/images/blank.jpg");
+        show_image("{{ STATIC_URL }}/images/scan_something.jpg");
         show_error("");
         deactivate_timecard();
     }
@@ -204,7 +204,7 @@
     <div id="heartbeat"></div>
     <div id="rfid"></div>
     <div id="profile"></div>
-    <div id="profile_image"><img id="profile_face" height="160" width="120" src="{{ STATIC_URL }}/images/blank.jpg"/></div>
+    <div id="profile_image"><img id="profile_face" height="160" width="120" src="{{ STATIC_URL }}/images/scan_something.jpg"/></div>
     <div id="summary"></div>
     <div id="cardtypes"></div>
     <div id="stamps"></div>
