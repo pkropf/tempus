@@ -1,6 +1,28 @@
+#outline{
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:460px;
+    height:500px;
+    border-width:thin;
+    border-style:solid;
+    border-color:#000000;
+}
+
+#timeclock{
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:460px;
+    height:20px;
+    border-bottom-width:thin;
+    border-bottom-style:solid;
+    border-bottom-color:#000000;
+}
+
 #error{
     position:absolute;
-    left:5px;
+    left:15px;
     top:0px;
     width:500px;
     height:20px;
@@ -8,36 +30,30 @@
 
 #welcome{
     position:absolute;
-    left:5px;
-    top:25px;
+    left:15px;
+    top:30px;
     width:225px;
     height:20px;
 }
 
 #heartbeat{
     position:absolute;
-    left:285px;
-    top:25px;
+    left:320px;
+    top:0px;
     width:250px;
     height:20px;
 }
 
-#rfid{
-    position:absolute;
-	left:270px;
-	top:272px;
-}
-
 #profile{
     position:absolute;
-	left:270px;
-	top:272px;
+	left:280px;
+	top:30px;
 }
 
 #profile_image{
     position:absolute;
-	left:270px;
-	top:60px;
+	left:280px;
+	top:61px;
 	width:150px;
 	height:200px;
 	z-index:5;
@@ -51,8 +67,8 @@
 
 #summary{
     position:absolute;
-	left:270px;
-	top:300px;
+	left:280px;
+	top:270px;
 	z-index:0;
 	width:184px;
 	height:68px;
@@ -68,8 +84,8 @@
 
 #cardtypes{
     position:absolute;
-	left:270px;
-	top:402px;
+	left:280px;
+	top:372px;
 	z-index:0;
 	width:184px;
 	height:68px;
@@ -77,7 +93,7 @@
 
 #stamps{
     position:absolute;
-	left:5px;
+	left:15px;
 	top:61px;
 	z-index:2;
 	width:242px;

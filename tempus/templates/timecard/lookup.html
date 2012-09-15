@@ -6,11 +6,6 @@
 
 {% block page_script %}
 <script type="text/javascript">
-    var empty_timecard = {"start_date": "",
-                          "end_date": "",
-                          "hours_today": "",
-                          "hours_total": ""
-                         };
     var active_timecard = null;
 
     function activate_timecard(timecard) {
@@ -25,7 +20,7 @@
 
     function clear_details() {
         clear_stamps();
-        show_summary(empty_timecard);
+        clear_summary();
         clear_cardtypes();
         show_image("{{ STATIC_URL }}/images/scan_something.jpg");
         show_error("");
@@ -70,6 +65,12 @@
             $("form #timecard_select").attr("checked", true);
             lookup_timecard(timecards[0][1]);
         }
+    }
+
+    function clear_summary() {
+        var summary = "";
+
+        document.getElementById("summary").innerHTML = summary;
     }
 
     function show_summary(timecard) {
@@ -199,19 +200,21 @@
 
 
 {% block content %}
-    <div id="welcome">Timecard</div>
-    <div id="error"></div>
-    <div id="heartbeat"></div>
-    <div id="rfid"></div>
-    <div id="profile"></div>
-    <div id="profile_image"><img id="profile_face" height="160" width="120" src="{{ STATIC_URL }}/images/scan_something.jpg"/></div>
-    <div id="summary"></div>
-    <div id="cardtypes"></div>
-    <div id="stamps"></div>
-    <div id="stamp_card">
-        <form action="/" id="stampit">
-            <input type="submit" value="Stamp" />
-        </form>
+    <div id="outline">
+      <div id="timeclock">Time Clock</div>
+      <div id="welcome">Timecard</div>
+      <div id="error"></div>
+      <div id="heartbeat"></div>
+      <div id="profile"></div>
+      <div id="profile_image"><img id="profile_face" height="160" width="120" src="{{ STATIC_URL }}/images/scan_something.jpg"/></div>
+      <div id="summary"></div>
+      <div id="cardtypes"></div>
+      <div id="stamps"></div>
+      <div id="stamp_card">
+          <form action="/" id="stampit">
+              <input type="submit" value="Stamp" />
+          </form>
+      </div>
     </div>
 
     <script>
