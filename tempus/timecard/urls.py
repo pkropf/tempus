@@ -22,7 +22,7 @@
 
 
 from django.conf.urls.defaults import patterns, include, url
-from tempus.timecard.views import current_datetime, index, lookup, rfid
+from tempus.timecard.views import current_datetime, index, rfid
 
 
 urlpatterns = patterns(
@@ -33,6 +33,5 @@ urlpatterns = patterns(
 
     url(r'^$', index),
     url(r'^rfid/', rfid),
-    url(r'^lookup/', lookup),
     url(r'^datetime/', current_datetime),
 )
