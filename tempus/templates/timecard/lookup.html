@@ -100,19 +100,19 @@
 
     function clear_stamps() {
         var stamps = '<table id="stampsTable">';
-        stamps = stamps + '<tr><th class="verticalLine">' + "Date" + '</th><th class="verticalLine">' + "Time In" + '</th><th class="verticalLine">' + "Time Out" + '</th></tr>';
-        stamps = stamps + '<tr><td class="odd verticalLine">' + "" + '</td><td class="odd verticalLine">' + "" + '</td><td class="odd verticalLine">' + "" + '</td></tr>';
-        stamps = stamps + '<tr><td class="even verticalLine">' + "" + '</td><td class="even verticalLine">' + "" + '</td><td class="even verticalLine">' + "" + '</td></tr>';
-        stamps = stamps + '<tr><td class="odd verticalLine">' + "" + '</td><td class="odd verticalLine">' + "" + '</td><td class="odd verticalLine">' + "" + '</td></tr>';
-        stamps = stamps + '<tr><td class="even verticalLine">' + "" + '</td><td class="even verticalLine">' + "" + '</td><td class="even verticalLine">' + "" + '</td></tr>';
-        stamps = stamps + '<tr><td class="odd verticalLine">' + "" + '</td><td class="odd verticalLine">' + "" + '</td><td class="odd verticalLine">' + "" + '</td></tr>';
-        stamps = stamps + '<tr><td class="even verticalLine">' + "" + '</td><td class="even verticalLine">' + "" + '</td><td class="even verticalLine">' + "" + '</td></tr>';
-        stamps = stamps + '<tr><td class="odd verticalLine">' + "" + '</td><td class="odd verticalLine">' + "" + '</td><td class="odd verticalLine">' + "" + '</td></tr>';
-        stamps = stamps + '<tr><td class="even verticalLine">' + "" + '</td><td class="even verticalLine">' + "" + '</td><td class="even verticalLine">' + "" + '</td></tr>';
-        stamps = stamps + '<tr><td class="odd verticalLine">' + "" + '</td><td class="odd verticalLine">' + "" + '</td><td class="odd verticalLine">' + "" + '</td></tr>';
-        stamps = stamps + '<tr><td class="even verticalLine">' + "" + '</td><td class="even verticalLine">' + "" + '</td><td class="even verticalLine">' + "" + '</td></tr>';
-        stamps = stamps + '<tr><td class="odd verticalLine">' + "" + '</td><td class="odd verticalLine">' + "" + '</td><td class="odd verticalLine">' + "" + '</td></tr>';
-        stamps = stamps + '<tr><td class="even verticalLine">' + "" + '</td><td class="even verticalLine">' + "" + '</td><td class="even verticalLine">' + "" + '</td></tr>';
+        stamps = stamps + '<tr><th class="verticalLine">' + "Date" + '</th><th class="verticalLine">' + "Time In" + '</th><th>' + "Time Out" + '</th></tr>';
+        stamps = stamps + '<tr><td class="odd verticalLine">' + "" + '</td><td class="odd verticalLine">' + "" + '</td><td class="odd">' + "" + '</td></tr>';
+        stamps = stamps + '<tr><td class="even verticalLine">' + "" + '</td><td class="even verticalLine">' + "" + '</td><td class="even">' + "" + '</td></tr>';
+        stamps = stamps + '<tr><td class="odd verticalLine">' + "" + '</td><td class="odd verticalLine">' + "" + '</td><td class="odd">' + "" + '</td></tr>';
+        stamps = stamps + '<tr><td class="even verticalLine">' + "" + '</td><td class="even verticalLine">' + "" + '</td><td class="even">' + "" + '</td></tr>';
+        stamps = stamps + '<tr><td class="odd verticalLine">' + "" + '</td><td class="odd verticalLine">' + "" + '</td><td class="odd">' + "" + '</td></tr>';
+        stamps = stamps + '<tr><td class="even verticalLine">' + "" + '</td><td class="even verticalLine">' + "" + '</td><td class="even">' + "" + '</td></tr>';
+        stamps = stamps + '<tr><td class="odd verticalLine">' + "" + '</td><td class="odd verticalLine">' + "" + '</td><td class="odd">' + "" + '</td></tr>';
+        stamps = stamps + '<tr><td class="even verticalLine">' + "" + '</td><td class="even verticalLine">' + "" + '</td><td class="even">' + "" + '</td></tr>';
+        stamps = stamps + '<tr><td class="odd verticalLine">' + "" + '</td><td class="odd verticalLine">' + "" + '</td><td class="odd">' + "" + '</td></tr>';
+        stamps = stamps + '<tr><td class="even verticalLine">' + "" + '</td><td class="even verticalLine">' + "" + '</td><td class="even">' + "" + '</td></tr>';
+        stamps = stamps + '<tr><td class="odd verticalLine">' + "" + '</td><td class="odd verticalLine">' + "" + '</td><td class="odd">' + "" + '</td></tr>';
+        stamps = stamps + '<tr><td class="even verticalLine">' + "" + '</td><td class="even verticalLine">' + "" + '</td><td class="even">' + "" + '</td></tr>';
 
         stamps = stamps + "</table>";
 
@@ -121,16 +121,17 @@
 
     function show_stamps(pairs) {
         var stamps = '<table id="stampsTable">';
-        stamps = stamps + '<tr><th class="dark verticalLine">' + "Date" + '</th><th class="dark verticalLine">' + "Time In" + '</th><th class="dark verticalLine">' + "Time Out" + '</th></tr>';
+        stamps = stamps + '<tr><th class="dark verticalLine">' + "Date" + '</th><th class="dark verticalLine">' + "Time In" + '</th><th class="dark">' + "Time Out" + '</th></tr>';
         var count = 1;
         var heads = ['<tr><td class="even verticalLine">', '<tr><td class="odd verticalLine">'];
-        var centers = ['</td><td class="even verticalLine">', '</td><td class="odd verticalLine">'];
+        var left  = ['</td><td class="even verticalLine">', '</td><td class="odd verticalLine">'];
+        var right = ['</td><td class="even">', '</td><td class="odd">'];
 
         $.each(pairs, function(i, item) {
             var sin = cleanup_timestamp(item[0]).split(" ");
             var sout = cleanup_timestamp(item[1]).split(" ");
 
-            stamps = stamps + heads[count % 2] + sin[0] + centers[count % 2] + sin[1] + centers[count % 2] + sout[1] + "</td></tr>";
+            stamps = stamps + heads[count % 2] + sin[0] + left[count % 2] + sin[1] + right[count % 2] + sout[1] + "</td></tr>";
             count = count + 1;
         });
 

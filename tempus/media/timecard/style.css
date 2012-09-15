@@ -46,8 +46,10 @@
 
 #profile{
     position:absolute;
-	left:280px;
+	left:150px;
 	top:30px;
+    text-align:right;
+    width:277px;
 }
 
 #profile_image{
