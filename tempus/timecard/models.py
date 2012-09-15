@@ -144,15 +144,15 @@ class Timecard(models.Model):
                 continue
 
             if s.stamp.date() == c.stamp.date():
-                p.append((c, s))
+                p.insert(0, (c, s))
                 c = None
 
             else:
-                p.append((c, None))
+                p.insert(0, (c, None))
                 c = s
 
         if c != None:
-            p.append((c, None))
+            p.insert(0, (c, None))
 
         return p
 
