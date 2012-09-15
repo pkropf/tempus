@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block page_css %}
+    <link rel="stylesheet" type="text/css" href="/media/timecard/style.css" />
+{% endblock %}
+
 {% block page_script %}
 <script type="text/javascript">
     var empty_timecard = {"start_date": "",
@@ -7,7 +11,6 @@
                           "hours_today": "",
                           "hours_total": ""
                          };
-    var empty_pairs = [["", ""]];
     var active_timecard = null;
 
     function activate_timecard(timecard) {
@@ -21,14 +24,16 @@
     }
 
     function clear_details() {
-        show_stamps(empty_pairs);
-        show_details(empty_timecard);
+        clear_stamps();
+        show_summary(empty_timecard);
+        clear_cardtypes();
         show_image("{{ STATIC_URL }}/images/blank.jpg");
+        show_error("");
         deactivate_timecard();
     }
 
     function show_error(msg) {
-        document.getElementById("errr").innerHTML = msg;
+        document.getElementById("error").innerHTML = msg;
     }
 
     function show_name(profile) {
@@ -39,10 +44,16 @@
         $("#profile_face").attr("src", image);
     }
 
-    function show_timecards(timecards) {
+    function clear_cardtypes(timecards) {
+        var cards = "<table></table>";
+
+        document.getElementById("cardtypes").innerHTML = cards;
+    }
+
+    function show_cardtypes(timecards) {
         var cards = "<form><table>";
         var count = 1;
-        var heads = ["<td>", "<tr><td>"];
+        var heads = ['<td class="even">', '<tr><td class="odd">'];
         var tails = ["</td></tr>", "</td>"];
 
         $.each(timecards, function(i, item) {
@@ -52,7 +63,7 @@
 
         cards = cards + "</table></form>";
 
-        document.getElementById("timecards").innerHTML = cards;
+        document.getElementById("cardtypes").innerHTML = cards;
 
         if (count == 2) {
             // $(".timecard_select").prop("checked", true);
@@ -61,16 +72,16 @@
         }
     }
 
-    function show_details(timecard) {
-        var details = "<table>";
+    function show_summary(timecard) {
+        var summary = "<table>";
 
-        details = details + "<tr><td>Start Date:</td><td>"  + timecard.start_date + "</td></tr>";
-        details = details + "<tr><td>End Date:</td><td>"    + timecard.end_date + "</td></tr>";
-        details = details + "<tr><td>Hours Today:</td><td>" + timecard.hours_today + "</td></tr>";
-        details = details + "<tr><td>Hours Total:</td><td>" + timecard.hours_total + "</td></tr>";
-        details = details + "</table>";
+        summary = summary + '<tr><td class="odd">Start Date:</td><td class="odd">' + timecard.start_date + "</td></tr>";
+        summary = summary + '<tr><td class="even">End Date:</td><td class="even">' + timecard.end_date + "</td></tr>";
+        summary = summary + '<tr><td class="odd">Hours Today:</td><td class="odd">' + timecard.hours_today + "</td></tr>";
+        summary = summary + '<tr><td class="even">Hours Total:</td><td class="even">' + timecard.hours_total + "</td></tr>";
+        summary = summary + "</table>";
 
-        document.getElementById("details").innerHTML = details;
+        document.getElementById("summary").innerHTML = summary;
     }
 
     function cleanup_timestamp(timestamp) {
@@ -86,15 +97,40 @@
         return stamp;
     }
 
+    function clear_stamps() {
+        var stamps = '<table id="stampsTable">';
+        stamps = stamps + '<tr><th class="verticalLine">' + "Date" + '</th><th class="verticalLine">' + "Time In" + '</th><th class="verticalLine">' + "Time Out" + '</th></tr>';
+        stamps = stamps + '<tr><td class="odd verticalLine">' + "" + '</td><td class="odd verticalLine">' + "" + '</td><td class="odd verticalLine">' + "" + '</td></tr>';
+        stamps = stamps + '<tr><td class="even verticalLine">' + "" + '</td><td class="even verticalLine">' + "" + '</td><td class="even verticalLine">' + "" + '</td></tr>';
+        stamps = stamps + '<tr><td class="odd verticalLine">' + "" + '</td><td class="odd verticalLine">' + "" + '</td><td class="odd verticalLine">' + "" + '</td></tr>';
+        stamps = stamps + '<tr><td class="even verticalLine">' + "" + '</td><td class="even verticalLine">' + "" + '</td><td class="even verticalLine">' + "" + '</td></tr>';
+        stamps = stamps + '<tr><td class="odd verticalLine">' + "" + '</td><td class="odd verticalLine">' + "" + '</td><td class="odd verticalLine">' + "" + '</td></tr>';
+        stamps = stamps + '<tr><td class="even verticalLine">' + "" + '</td><td class="even verticalLine">' + "" + '</td><td class="even verticalLine">' + "" + '</td></tr>';
+        stamps = stamps + '<tr><td class="odd verticalLine">' + "" + '</td><td class="odd verticalLine">' + "" + '</td><td class="odd verticalLine">' + "" + '</td></tr>';
+        stamps = stamps + '<tr><td class="even verticalLine">' + "" + '</td><td class="even verticalLine">' + "" + '</td><td class="even verticalLine">' + "" + '</td></tr>';
+        stamps = stamps + '<tr><td class="odd verticalLine">' + "" + '</td><td class="odd verticalLine">' + "" + '</td><td class="odd verticalLine">' + "" + '</td></tr>';
+        stamps = stamps + '<tr><td class="even verticalLine">' + "" + '</td><td class="even verticalLine">' + "" + '</td><td class="even verticalLine">' + "" + '</td></tr>';
+        stamps = stamps + '<tr><td class="odd verticalLine">' + "" + '</td><td class="odd verticalLine">' + "" + '</td><td class="odd verticalLine">' + "" + '</td></tr>';
+        stamps = stamps + '<tr><td class="even verticalLine">' + "" + '</td><td class="even verticalLine">' + "" + '</td><td class="even verticalLine">' + "" + '</td></tr>';
+
+        stamps = stamps + "</table>";
+
+        document.getElementById("stamps").innerHTML = stamps;
+    }
+
     function show_stamps(pairs) {
-        var stamps = "<table>";
-        stamps = stamps + "<tr><td>" + "Date" + "</td><td>" + "Time In" + "</td><td>" + "Time Out" + "</td></tr>";
+        var stamps = '<table id="stampsTable">';
+        stamps = stamps + '<tr><th class="dark verticalLine">' + "Date" + '</th><th class="dark verticalLine">' + "Time In" + '</th><th class="dark verticalLine">' + "Time Out" + '</th></tr>';
+        var count = 1;
+        var heads = ['<tr><td class="even verticalLine">', '<tr><td class="odd verticalLine">'];
+        var centers = ['</td><td class="even verticalLine">', '</td><td class="odd verticalLine">'];
 
         $.each(pairs, function(i, item) {
             var sin = cleanup_timestamp(item[0]).split(" ");
             var sout = cleanup_timestamp(item[1]).split(" ");
 
-            stamps = stamps + "<tr><td>" + sin[0] + "</td><td>" + sin[1] + "</td><td>" + sout[1] + "</td></tr>";
+            stamps = stamps + heads[count % 2] + sin[0] + centers[count % 2] + sin[1] + centers[count % 2] + sout[1] + "</td></tr>";
+            count = count + 1;
         });
 
         stamps = stamps + "</table>";
@@ -110,11 +146,11 @@
                           clear_details();
                           show_name(data.objects[0]);
                           show_image(data.objects[0].image);
-                          show_timecards(data.objects[0].timecards);
+                          show_cardtypes(data.objects[0].timecards);
                       })
 
         .error(function(jqXHR, textStatus, errorThrown) {
-            show_error(errorThrown);
+            show_error("lookup_profile_rfid: " + errorThrown);
         })
     }
 
@@ -123,12 +159,12 @@
                       {},
                       function(data) {
                           activate_timecard(uri);
-                          show_details(data);
+                          show_summary(data);
                           show_stamps(data.pairs);
                       })
 
         .error(function(jqXHR, textStatus, errorThrown) {
-            show_error(errorThrown);
+            show_error("lookup_timecard: " + errorThrown);
         })
     }
 
@@ -163,13 +199,14 @@
 
 
 {% block content %}
+    <div id="welcome">Timecard</div>
     <div id="error"></div>
     <div id="heartbeat"></div>
     <div id="rfid"></div>
     <div id="profile"></div>
     <div id="profile_image"><img id="profile_face" height="160" width="120" src="{{ STATIC_URL }}/images/blank.jpg"/></div>
-    <div id="timecards"></div>
-    <div id="details"></div>
+    <div id="summary"></div>
+    <div id="cardtypes"></div>
     <div id="stamps"></div>
     <div id="stamp_card">
         <form action="/" id="stampit">

@@ -1,23 +1,25 @@
 #header {
     position: absolute;
-    top: 0;
-    left: 0;
-    height: 4em;
+    top:0px;
+    left0px;
+    height:100px;
+    width:1000px;
 }
 
 
 #sidebar {
     position: absolute;
-    top: 6em;
-    left: 0;
-    width: 12em;
+    top:100px;
+    left:0px;
+    width:200px;
 }
 
 
 #content {
     position: absolute;
-    top: 7em;
-    left: 8em;
+    top:100px;
+    left:200px;
+    width:400px;
 }
 
 
