@@ -36,7 +36,8 @@ class RfidcardResource(ModelResource):
     class Meta:
         queryset = Rfidcard.objects.all()
         resource_name = 'rfidcard'
-        authentication = BasicAuthentication()
+        #authentication = BasicAuthentication()
+        authentication = Authentication()
         ordering = ['rfid',]
         filtering = {
             'rfid': ALL,
@@ -51,7 +52,8 @@ class ProfileResource(ModelResource):
     class Meta:
         queryset = Profile.objects.all()
         resource_name = 'profile'
-        authentication = BasicAuthentication()
+        #authentication = BasicAuthentication()
+        authentication = Authentication()
         filtering = {
             'rfid': ALL_WITH_RELATIONS,
             'first_name': ALL,
@@ -70,7 +72,8 @@ class TimecardTypeResource(ModelResource):
     class Meta:
         queryset = TimecardType.objects.all()
         resource_name = 'timecardtype'
-        authentication = BasicAuthentication()
+        #authentication = BasicAuthentication()
+        authentication = Authentication()
         ordering = ['name',]
 
 
@@ -78,7 +81,8 @@ class TimecardResource(ModelResource):
     class Meta:
         queryset = Timecard.objects.all()
         resource_name = 'timecard'
-        authentication = BasicAuthentication()
+        #authentication = BasicAuthentication()
+        authentication = Authentication()
         filtering = {
             'profile': ALL_WITH_RELATIONS,
             }

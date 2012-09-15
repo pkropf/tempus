@@ -72,6 +72,7 @@ class TimecardType(models.Model):
     """
 
     name = models.CharField(max_length=64)
+    ranking = models.IntegerField(unique=True)
     description = models.TextField(help_text = 'Description of the type of timecard.', null = True, blank = True)
 
 

@@ -53,7 +53,7 @@ api interactions via command line
 
 list profiles::
 
-  $ curl --dump-header - -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/profile/
+  $ curl --dump-header - -H 'Accept: application/json' http://localhost:8000/api/v1/profile/
   HTTP/1.0 200 OK
   Date: Thu, 13 Sep 2012 03:45:59 GMT
   Server: WSGIServer/0.1 Python/2.7.2
@@ -107,7 +107,7 @@ list profiles::
 
 lookup a profile::
 
-  $ curl --dump-header - -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/profile/1/
+  $ curl --dump-header - -H 'Accept: application/json' http://localhost:8000/api/v1/profile/1/
   HTTP/1.0 200 OK
   Date: Tue, 11 Sep 2012 20:06:39 GMT
   Server: WSGIServer/0.1 Python/2.7.2
@@ -124,7 +124,7 @@ lookup a profile::
 
 lookup a profile by rfid::
 
-  $ curl --dump-header - -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/profile/?rfid__rfid=4C0020F73B
+  $ curl --dump-header - -H 'Accept: application/json' http://localhost:8000/api/v1/profile/?rfid__rfid=4C0020F73B
   HTTP/1.0 200 OK
   Date: Thu, 13 Sep 2012 02:35:28 GMT
   Server: WSGIServer/0.1 Python/2.7.2
@@ -152,7 +152,7 @@ lookup a profile by rfid::
 
 search for profiles by first name::
 
-  $ curl --dump-header - -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/profile/?first_name=peter
+  $ curl --dump-header - -H 'Accept: application/json' http://localhost:8000/api/v1/profile/?first_name=peter
   HTTP/1.0 200 OK
   Date: Thu, 13 Sep 2012 03:51:14 GMT
   Server: WSGIServer/0.1 Python/2.7.2
@@ -165,7 +165,7 @@ search for profiles by first name::
            "total_count": 0},
            "objects": []}
   $
-  $ curl --dump-header - -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/profile/?first_name=Peter
+  $ curl --dump-header - -H 'Accept: application/json' http://localhost:8000/api/v1/profile/?first_name=Peter
   HTTP/1.0 200 OK
   Date: Thu, 13 Sep 2012 03:51:21 GMT
   Server: WSGIServer/0.1 Python/2.7.2
@@ -202,7 +202,7 @@ search for profiles by first name::
   
 lookup the timecard(s) for a profile::
 
-  $ curl --dump-header - -u peter:byteme -H 'Accept: application/json' http://localhost:8000/api/v1/timecard/?profile=1
+  $ curl --dump-header - -H 'Accept: application/json' http://localhost:8000/api/v1/timecard/?profile=1
   HTTP/1.0 200 OK
   Date: Tue, 11 Sep 2012 20:16:20 GMT
   Server: WSGIServer/0.1 Python/2.7.2
@@ -262,7 +262,7 @@ lookup the timecard(s) for a profile::
 
 stamp a timecard::
 
-  $ curl --dump-header - -u peter:byteme -H "Content-Type: application/json" -X POST --data '{"timecard": "/api/v1/timecard/1/"}' http://localhost:8000/api/v1/stamp/
+  $ curl --dump-header - -H "Content-Type: application/json" -X POST --data '{"timecard": "/api/v1/timecard/1/"}' http://localhost:8000/api/v1/stamp/
   HTTP/1.0 201 CREATED
   Date: Tue, 11 Sep 2012 20:05:35 GMT
   Server: WSGIServer/0.1 Python/2.7.2

@@ -178,3 +178,4 @@ LOGGING = {
 
 
 RFID_URL = 'ws://localhost:9001'
+#TEMPUS_URL = 'http://localhost:8000'
