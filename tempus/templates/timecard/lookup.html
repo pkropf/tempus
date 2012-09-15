@@ -52,7 +52,7 @@
         var tails = ["</td></tr>", "</td>"];
 
         $.each(timecards, function(i, item) {
-            cards = cards + heads[count % 2] + "<input type=\"radio\" name=\"timecard_select\" onclick=\"lookup_timecard('" + item[1] + "')\"/>" + item[0] + tails[count % 2];
+            cards = cards + heads[count % 2] + "<input type=\"radio\" id=\"card_button\" name=\"timecard_select\" onclick=\"lookup_timecard('" + item[1] + "')\"/>" + item[0] + tails[count % 2];
             count = count + 1;
         });
 
@@ -62,7 +62,7 @@
 
         if (count == 2) {
             // $(".timecard_select").prop("checked", true);
-            $("form #timecard_select").attr("checked", true);
+            $("#card_button").attr("checked", true);
             lookup_timecard(timecards[0][1]);
         }
     }
