@@ -29,7 +29,9 @@ import datetime
 
 def index(request):
     t = loader.get_template('timecard/index.html')
-    c = RequestContext(request, {'RFID_URL': settings.RFID_URL})
+    c = RequestContext(request, {'RFID_URL': settings.RFID_URL,
+                                 'RFID_CHECK_RATE': settings.RFID_CHECK_RATE,
+                                 })
     return HttpResponse(t.render(c))
 
 

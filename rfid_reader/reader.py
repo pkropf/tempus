@@ -60,7 +60,8 @@ class Holder():
                            })
 
     def heartbeat(self, *args, **kw):
-        self.factory.broadcast(json.dumps({'heartbeat': str(datetime.now())}))
+        if self.connection_status == 'connected':
+            self.factory.broadcast(json.dumps({'heartbeat': str(datetime.now())}))
 
 
 class RfidJson(resource.Resource):

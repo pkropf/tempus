@@ -23,6 +23,15 @@
 #error{
     position:absolute;
     left:5px;
+    top:-25px;
+    width:500px;
+    height:20px;
+    color:FireBrick;
+}
+
+#heartbeat_error{
+    position:absolute;
+    left:5px;
     top:-55px;
     width:500px;
     height:20px;

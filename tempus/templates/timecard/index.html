@@ -7,15 +7,16 @@
 {% block page_script %}
 <script type="text/javascript">
     var active_timecard = null;
+    var last_heartbeat = new Date();
 
     function activate_timecard(timecard) {
         active_timecard = timecard;
-	$("input[type=submit]").removeAttr("disabled");
+        $("input[type=submit]").removeAttr("disabled");
     }
 
     function deactivate_timecard() {
         active_timecard = null;
-	$("input[type=submit]").attr("disabled", "disabled");
+        $("input[type=submit]").attr("disabled", "disabled");
     }
 
     function clear_details() {
@@ -29,6 +30,10 @@
 
     function show_error(msg) {
         document.getElementById("error").innerHTML = msg;
+    }
+
+    function show_heartbeat_error(msg) {
+        document.getElementById("heartbeat_error").innerHTML = msg;
     }
 
     function show_name(profile) {
@@ -172,9 +177,19 @@
         })
     }
 
+    function check_heartbeat() {
+        var now = new Date();
+        var delta = now - last_heartbeat;
 
-    $(document).ready(function() {
+        //alert(delta);
+        if (delta > {{ RFID_CHECK_RATE }}) {
+            document.getElementById("heartbeat").innerHTML = "";
+            show_heartbeat_error("last heartbeat:" + last_heartbeat);
+            connect_rfid_reader();
+        }
+    }
 
+    function connect_rfid_reader() {
         var wsurim = "{{ RFID_URL }}";
         webSocketm = new WebSocket(wsurim);
         webSocketm.onmessage = function(e) { onMessage(e) };
@@ -184,14 +199,27 @@
             var fields = eval("(" + e.data + ")");
     
             if ("heartbeat" in fields) {
-                document.getElementById("heartbeat").innerHTML = fields.heartbeat.split(".")[0]
+                // 2012-09-15 16:15:04.22334
+                var date = fields.heartbeat.split(" ")[0].split("-");
+                var time = fields.heartbeat.split(" ")[1].split(".")[0].split(":");
+
+                last_heartbeat = new Date(date[0], date[1] - 1, date[2], time[0], time[1], time[2]);
+                document.getElementById("heartbeat").innerHTML = fields.heartbeat.split(".")[0];
+                show_heartbeat_error("");
 
             } else {
 
                 lookup_profile_rfid(fields.rfid);
             }
         }
+    }
+
+    $(document).ready(function() {
+        connect_rfid_reader();
         clear_details();
+
+        setInterval(function(){check_heartbeat()}, {{ RFID_CHECK_RATE }});
+
     });
 </script>
 
@@ -207,6 +235,7 @@
       <div id="timeclock">Time Clock</div>
       <div id="welcome">Timecard</div>
       <div id="error"></div>
+      <div id="heartbeat_error"></div>
       <div id="heartbeat"></div>
       <div id="profile"></div>
       <div id="profile_image"><img id="profile_face" height="160" width="120" src="{{ STATIC_URL }}/images/scan_something.jpg"/></div>
@@ -230,11 +259,11 @@
                 contentType: "application/json",
                 data: JSON.stringify({"timecard": active_timecard}),
                 dataType: 'json',
-		processData: false
+        processData: false
             }).done(function(msg) {
                 lookup_timecard(active_timecard);
             });
-	}
+    }
     });
     </script>
 {% endblock %}
