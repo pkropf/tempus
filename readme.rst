@@ -16,3 +16,7 @@ rfid value is made available through a websocket as a json structure.
 The rfid reader is an Innovations ID-12 available from SparkFun_.
 
 .. _SparkFun: http://www.sparkfun.com/products/9875
+
+Drivers for the rfid reader can be found on the FTDI_ website.
+
+.. _FTDI: http://www.ftdichip.com/Drivers/VCP.htm
