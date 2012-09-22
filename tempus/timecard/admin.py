@@ -19,22 +19,14 @@
 # THE SOFTWARE.
 
 
-from tempus.timecard.models import Profile, Rfidcard, TimecardType, Timecard, Stamp
+from tempus.timecard.models import Rfidcard, TimecardType, Timecard, Stamp
 from django.contrib import admin
 
 
-class ProfileAdmin(admin.ModelAdmin):
-    list_display  = ('first_name', 'last_name', 'email', 'rfid',)
-    ordering      = ('first_name', 'last_name', 'email', 'rfid',)
-    search_fields = ('first_name', 'last_name', 'email', 'rfid',)
-
-admin.site.register(Profile, ProfileAdmin)
-
-
 class RfidcardAdmin(admin.ModelAdmin):
-    list_display  = ('rfid', 'active',)
-    ordering      = ('rfid',)
-    search_fields = ('rfid',)
+    list_display  = ('profile', 'rfid', 'active',)
+    ordering      = ('profile',)
+    search_fields = ('profile', 'rfid',)
 
 admin.site.register(Rfidcard, RfidcardAdmin)
 

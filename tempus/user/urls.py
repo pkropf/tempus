@@ -22,27 +22,7 @@
 
 
 from django.conf.urls.defaults import patterns, include, url
-from tempus.timecard.api import RfidcardResource, TimecardTypeResource, TimecardResource, StampResource
-from tempus.user.api import ProfileResource
-from tastypie.api import Api
-from django.conf import settings
-
-
-v1_api = Api(api_name = 'v1')
-
-# tempus.timecard
-v1_api.register(RfidcardResource())
-v1_api.register(TimecardTypeResource())
-v1_api.register(TimecardResource())
-v1_api.register(StampResource())
-
-# tempus.user
-v1_api.register(ProfileResource())
-
-
-# Uncomment the next two lines to enable the admin:
-from django.contrib import admin
-admin.autodiscover()
+from tempus.user.views import index
 
 
 urlpatterns = patterns(
@@ -51,19 +31,5 @@ urlpatterns = patterns(
     # url(r'^$', 'tempus.views.home', name='home'),
     # url(r'^tempus/', include('tempus.foo.urls')),
 
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
-    url(r'^admin/', include(admin.site.urls)),
-    (r'^api/', include(v1_api.urls)),
-    (r'^timecard/', include('timecard.urls')),
+    url(r'^$', index),
 )
-
-
-if settings.DEBUG:
-    urlpatterns += patterns('django.views.static',
-                            (r'media/(?P<path>.*)',
-                             'serve',
-                             {'document_root': settings.MEDIA_ROOT}),
-    )

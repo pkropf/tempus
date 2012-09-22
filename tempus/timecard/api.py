@@ -25,7 +25,8 @@ from tastypie.authentication import Authentication, BasicAuthentication
 from tastypie.authorization import Authorization, DjangoAuthorization
 from tastypie import fields
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
-from tempus.timecard.models import Rfidcard, Profile, TimecardType, Timecard, Stamp
+from tempus.timecard.models import Rfidcard, TimecardType, Timecard, Stamp
+from tempus.user.api import ProfileResource
 from django.contrib.auth.models import User
 from tastypie.exceptions import ImmediateHttpResponse
 from tastypie.http import HttpApplicationError
@@ -43,29 +44,7 @@ class RfidcardResource(ModelResource):
             'rfid': ALL,
             }
 
-
-class ProfileResource(ModelResource):
-    rfid = fields.ForeignKey(RfidcardResource, 'rfid')
-    #timecard = fields.ToManyField('timecard.api.TimecardResource', 'timecard')
-    timecards = fields.ListField(readonly = True)
-
-    class Meta:
-        queryset = Profile.objects.all()
-        resource_name = 'profile'
-        #authentication = BasicAuthentication()
-        authentication = Authentication()
-        filtering = {
-            'rfid': ALL_WITH_RELATIONS,
-            'first_name': ALL,
-            'last_name': ALL,
-            'email': ALL,
-            }
-        ordering = ['tag',]
-
-    def dehydrate_timecards(self, bundle):
-        return bundle.obj.timecard_urls()
-
-
+    profile      = fields.ForeignKey(ProfileResource, 'profile')
 
 
 class TimecardTypeResource(ModelResource):

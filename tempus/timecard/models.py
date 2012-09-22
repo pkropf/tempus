@@ -25,6 +25,7 @@ from django.db import models
 from django.contrib import admin
 from datetime import datetime, date, timedelta
 from django.core.exceptions import ValidationError
+from tempus.user.models import Profile
 
 
 
@@ -33,37 +34,10 @@ class Rfidcard(models.Model):
 
     rfid = models.CharField(max_length=24)
     active = models.BooleanField()
-
+    profile = models.ForeignKey(Profile, null = True, blank = True)
 
     def __unicode__(self):
         return self.rfid
-
-
-
-class Profile(models.Model):
-    """collections of objects that identify a user
-    note that the image should be of 1:1.33 ratio for best viewing
-    """
-    first_name           = models.CharField(max_length=64, help_text="Person's first name.")
-    last_name            = models.CharField(max_length=64, help_text="Person's last name.")
-    rfid                 = models.ForeignKey(Rfidcard, unique=True, help_text="Person's id card.")
-    image                = models.ImageField(upload_to='profile/%Y/%m/%d', null=True, blank=True)
-    email                = models.EmailField(help_text="User's email address.", null=True, blank=True)
-    fm_id                = models.IntegerField(db_index=True, help_text="FileMaker Contact ID.", null=True, blank=True)
-    nick_name            = models.CharField(max_length=32, help_text="Person's nick name.", null=True, blank=True)
-    cell_phone           = models.CharField(max_length=15, null=True, blank=True)
-    home_phone           = models.CharField(max_length=15, null=True, blank=True)
-    work_phone           = models.CharField(max_length=15, null=True, blank=True)
-    emergency_first_name = models.CharField(max_length=64, help_text="Name of the emergency contact for the person.", null=True, blank=True)
-    emergency_last_name  = models.CharField(max_length=64, help_text="Name of the emergency contact for the person.", null=True, blank=True)
-    emergency_phone      = models.CharField(max_length=15, help_text="Phone number of the emergency contact for the person.", null=True, blank=True)
-
-
-    def __unicode__(self):
-        return '%s %s' % (self.first_name, self.last_name)
-
-    def timecard_urls(self):
-        return [(t.timecardtype.name, '/api/v1/timecard/%d/' % t.pk) for t in self.timecard_set.order_by('timecardtype__name')]
 
 
 

@@ -122,31 +122,24 @@ lookup a profile::
   $
 
 
-lookup a profile by rfid::
+lookup an rfidcard by rfid::
 
-  $ curl --dump-header - -H 'Accept: application/json' http://localhost:8000/api/v1/profile/?rfid__rfid=4C0020F73B
+  $ curl --dump-header - -H 'Accept: application/json' http://localhost:8000/api/v1/rfidcard/?rfid=4C0020F73B
   HTTP/1.0 200 OK
-  Date: Thu, 13 Sep 2012 02:35:28 GMT
+  Date: Sat, 22 Sep 2012 04:03:37 GMT
   Server: WSGIServer/0.1 Python/2.7.2
   Content-Type: application/json; charset=utf-8
-  
+
   {"meta": {"limit": 20,
             "next": null,
             "offset": 0,
             "previous": null,
             "total_count": 1},
-   "objects": [{"id": 1,
-                "image": null,
-                "resource_uri": "/api/v1/profile/1/",
-                "rfid": "/api/v1/rfidcard/1/",
-                "tag": "peter",
-                "timecards": [["Create",
-                               "/api/v1/timecard/2/"],
-                              ["Faculty",
-                               "/api/v1/timecard/4/"],
-                              ["Staff",
-                               "/api/v1/timecard/1/"]],
-                "user": "/api/v1/user/1/"}]}
+   "objects": [{"active": true,
+                "id": 1,
+                "profile": "/api/v1/profile/1/",
+                "resource_uri": "/api/v1/rfidcard/1/",
+                "rfid": "4C0020F73B"}]}
   $ 
 
 
