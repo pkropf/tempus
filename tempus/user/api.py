@@ -33,8 +33,6 @@ from django.core.exceptions import ValidationError
 
 
 class ProfileResource(ModelResource):
-    #rfid = fields.ForeignKey(RfidcardResource, 'rfid')
-    #timecard = fields.ToManyField('timecard.api.TimecardResource', 'timecard')
     timecards = fields.ListField(readonly = True)
 
     class Meta:

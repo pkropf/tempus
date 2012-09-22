@@ -147,20 +147,32 @@
     }
 
 
-    function lookup_profile_rfid(id) {
-        new $.getJSON("/api/v1/profile/?rfid__rfid=" + id,
+    function lookup_rfid(id) {
+        new $.getJSON("/api/v1/rfidcard/?rfid=" + id,
                       {},
                       function(data) {
-                          clear_details();
-                          show_name(data.objects[0]);
-                          show_image(data.objects[0].image);
-                          show_cardtypes(data.objects[0].timecards);
+
+                          new $.getJSON(data.objects[0].profile,
+                                        {},
+                                        function(data) {
+                                            clear_details();
+                                            show_name(data);
+                                            show_image(data.image);
+                                            show_cardtypes(data.timecards);
+                                        })
+
+                              .error(function(jqXHR, textStatus, errorThrown) {
+                                  var fields = eval("(" + jqXHR.responseText + ")");
+
+                                  show_error("lookup_rfid.profile: " + fields.error_message);
+                              })
+
                       })
 
         .error(function(jqXHR, textStatus, errorThrown) {
             var fields = eval("(" + jqXHR.responseText + ")");
 
-            show_error("lookup_profile_rfid: " + fields.error_message);
+            show_error("lookup_rfid: " + fields.error_message);
         })
     }
 
@@ -210,7 +222,7 @@
 
             } else {
 
-                lookup_profile_rfid(fields.rfid);
+                lookup_rfid(fields.rfid);
             }
         }
     }

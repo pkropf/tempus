@@ -42,6 +42,7 @@ class RfidcardResource(ModelResource):
         ordering = ['rfid',]
         filtering = {
             'rfid': ALL,
+            'profile': ALL,
             }
 
     profile      = fields.ForeignKey(ProfileResource, 'profile')
