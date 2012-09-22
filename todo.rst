@@ -7,7 +7,7 @@ General To Do List
 * picture cropping tool to ensure the correct resolution when cropping profile images.
 * add rfid card history / audit
 * generate timesheet
-* add a clear button to the timesheet page
+* ~~add a clear button to the timesheet page~~
 
 Client Specific
 ---------------
