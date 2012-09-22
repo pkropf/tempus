@@ -20,6 +20,7 @@
     }
 
     function clear_details() {
+        document.getElementById("profile").innerHTML = "";
         clear_stamps();
         clear_summary();
         clear_cardtypes();
@@ -245,6 +246,7 @@
       <div id="stamp_card">
           <form action="/" id="stampit">
               <input type="submit" value="Stamp" />
+              <input type="button" onclick="clear_details()" value="Clear" />
           </form>
       </div>
     </div>
