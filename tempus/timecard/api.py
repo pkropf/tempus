@@ -45,7 +45,7 @@ class RfidcardResource(ModelResource):
             'profile': ALL,
             }
 
-    profile      = fields.ForeignKey(ProfileResource, 'profile')
+    profile = fields.ForeignKey(ProfileResource, 'profile', null=True, blank=True)
 
 
 class TimecardTypeResource(ModelResource):

@@ -148,26 +148,34 @@
 
 
     function lookup_rfid(id) {
+        clear_details();
         new $.getJSON("/api/v1/rfidcard/?rfid=" + id,
                       {},
                       function(data) {
+                          if (data.meta.total_count == 0) {
+                              show_error("Unrecognized card. Please contact the system administrator.");
+                          } else {
 
-                          new $.getJSON(data.objects[0].profile,
-                                        {},
-                                        function(data) {
-                                            clear_details();
-                                            show_name(data);
-                                            show_image(data.image);
-                                            show_cardtypes(data.timecards);
-                                        })
+                              if (data.objects[0].profile) {
+                                  new $.getJSON(data.objects[0].profile,
+                                                {},
+                                                function(data) {
+                                                    show_name(data);
+                                                    show_image(data.image);
+                                                    show_cardtypes(data.timecards);
+                                                })
 
-                              .error(function(jqXHR, textStatus, errorThrown) {
-                                  var fields = eval("(" + jqXHR.responseText + ")");
+                                      .error(function(jqXHR, textStatus, errorThrown) {
+                                          var fields = eval("(" + jqXHR.responseText + ")");
 
-                                  show_error("lookup_rfid.profile: " + fields.error_message);
-                              })
+                                          show_error("lookup_rfid.profile: " + fields.error_message);
+                                      })
 
-                      })
+                              } else {
+                                  show_error("Card not associated. Please contact the system administrator.");
+                              }
+
+                          }})
 
         .error(function(jqXHR, textStatus, errorThrown) {
             var fields = eval("(" + jqXHR.responseText + ")");
