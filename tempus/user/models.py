@@ -35,7 +35,6 @@ class Profile(models.Model):
     last_name            = models.CharField(max_length=64, help_text="Person's last name.")
     image                = models.ImageField(upload_to='profile/%Y/%m/%d', null=True, blank=True)
     email                = models.EmailField(help_text="User's email address.", null=True, blank=True)
-    fm_id                = models.IntegerField(db_index=True, help_text="FileMaker Contact ID.", null=True, blank=True)
     nick_name            = models.CharField(max_length=32, help_text="Person's nick name.", null=True, blank=True)
     cell_phone           = models.CharField(max_length=15, null=True, blank=True)
     home_phone           = models.CharField(max_length=15, null=True, blank=True)
@@ -50,3 +49,30 @@ class Profile(models.Model):
 
     def timecard_urls(self):
         return [(t.timecardtype.name, '/api/v1/timecard/%d/' % t.pk) for t in self.timecard_set.order_by('timecardtype__name')]
+
+
+class CrossName(models.Model):
+    """Names of cross references.
+    """
+    name      = models.CharField(max_length=64, help_text="cross reference name")
+
+    class Meta:
+        verbose_name = 'Cross Reference Name'
+
+    def __unicode__(self):
+        return '%s' % (self.name)
+
+
+class CrossReference(models.Model):
+    """Cross reference to other systems.
+    """
+    name      = models.ForeignKey(CrossName)
+    reference = models.IntegerField(db_index=True, help_text="cross reference id")
+    profile   = models.ForeignKey(Profile)
+
+    class Meta:
+        unique_together = (("name", "profile"),)
+        verbose_name = 'Cross Reference'
+
+    def __unicode__(self):
+        return '%s - %d - %s' % (self.name, self.reference, self.profile)

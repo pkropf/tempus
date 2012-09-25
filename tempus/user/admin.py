@@ -19,7 +19,7 @@
 # THE SOFTWARE.
 
 
-from tempus.timecard.models import Profile
+from tempus.user.models import Profile, CrossName, CrossReference
 from django.contrib import admin
 
 
@@ -29,3 +29,19 @@ class ProfileAdmin(admin.ModelAdmin):
     search_fields = ('first_name', 'last_name', 'email',)
 
 admin.site.register(Profile, ProfileAdmin)
+
+
+class CrossNameAdmin(admin.ModelAdmin):
+    list_display  = ('name',)
+    ordering      = ('name',)
+    search_fields = ('name',)
+
+admin.site.register(CrossName, CrossNameAdmin)
+
+
+class CrossReferenceAdmin(admin.ModelAdmin):
+    list_display  = ('profile', 'name', 'reference',)
+    ordering      = ('profile',)
+    search_fields = ('profile__first_name', 'profile__last_name', 'name',)
+
+admin.site.register(CrossReference, CrossReferenceAdmin)
