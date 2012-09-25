@@ -87,11 +87,11 @@
 }
 
 #summary td.odd{
-	background-color:#EEEEEE;
+	background-color:#FFFFFF;
 }
 
 #summary td.even{
-	background-color:#FFFFFF;
+	background-color:#EEEEEE;
 }
 
 #cardtypes{
@@ -139,11 +139,11 @@
 }
 
 #stampsTable td.odd{
-	background-color:#EEEEEE;
+	background-color:#FFFFFF;
 }
 
 #stampsTable td.even{
-	background-color:#FFFFFF;
+	background-color:#EEEEEE;
 }
 
 #stampsTable .verticalLine{
