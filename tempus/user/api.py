@@ -25,7 +25,7 @@ from tastypie.authentication import Authentication, BasicAuthentication
 from tastypie.authorization import Authorization, DjangoAuthorization
 from tastypie import fields
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
-from tempus.user.models import Profile
+from tempus.user.models import Profile, CrossName, CrossReference
 from django.contrib.auth.models import User
 from tastypie.exceptions import ImmediateHttpResponse
 from tastypie.http import HttpApplicationError
@@ -49,3 +49,28 @@ class ProfileResource(ModelResource):
 
     def dehydrate_timecards(self, bundle):
         return bundle.obj.timecard_urls()
+
+
+class CrossNameResource(ModelResource):
+    class Meta:
+        queryset = CrossName.objects.all()
+        resource_name = 'crossname'
+        #authentication = BasicAuthentication()
+        authentication = Authentication()
+        filtering = {
+            'name': ALL,
+            }
+        ordering = ['name',]
+
+
+class CrossReferenceResource(ModelResource):
+    class Meta:
+        queryset = CrossReference.objects.all()
+        resource_name = 'crossreference'
+        #authentication = BasicAuthentication()
+        authentication = Authentication()
+        filtering = {
+            'reference': ALL,
+            'profile__first_name': ALL,
+            'profile__last_name': ALL,
+            }
