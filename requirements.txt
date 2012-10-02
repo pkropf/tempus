@@ -8,3 +8,4 @@ lxml
 mimeparse
 pyyaml
 pil
+south

@@ -152,6 +152,7 @@ INSTALLED_APPS = (
     'tempus.user',
     'tempus.auth',
     'tastypie',
+    'south',
 )
 
 # A sample logging configuration. The only tangible logging
