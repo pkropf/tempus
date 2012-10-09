@@ -13,9 +13,10 @@ class Migration(SchemaMigration):
             ('id', self.gf('django.db.models.fields.IntegerField')(db_index=True, blank=True)),
             ('rfid', self.gf('django.db.models.fields.CharField')(max_length=24)),
             ('active', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('profile', self.gf('django.db.models.fields.IntegerField')(db_index=True, null=True, blank=True)),
+            ('profile_id', self.gf('django.db.models.fields.IntegerField')(db_index=True, null=True, blank=True)),
             ('history_id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('history_date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
+            ('history_date', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+            ('history_user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], null=True)),
             ('history_type', self.gf('django.db.models.fields.CharField')(max_length=1)),
         ))
         db.send_create_signal('timecard', ['HistoricalRfidcard'])
@@ -36,7 +37,8 @@ class Migration(SchemaMigration):
             ('ranking', self.gf('django.db.models.fields.IntegerField')(db_index=True)),
             ('description', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
             ('history_id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('history_date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
+            ('history_date', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+            ('history_user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], null=True)),
             ('history_type', self.gf('django.db.models.fields.CharField')(max_length=1)),
         ))
         db.send_create_signal('timecard', ['HistoricalTimecardType'])
@@ -53,13 +55,14 @@ class Migration(SchemaMigration):
         # Adding model 'HistoricalTimecard'
         db.create_table('timecard_historicaltimecard', (
             ('id', self.gf('django.db.models.fields.IntegerField')(db_index=True, blank=True)),
-            ('timecardtype', self.gf('django.db.models.fields.IntegerField')(db_index=True, null=True, blank=True)),
-            ('profile', self.gf('django.db.models.fields.IntegerField')(db_index=True, null=True, blank=True)),
+            ('timecardtype_id', self.gf('django.db.models.fields.IntegerField')(db_index=True, null=True, blank=True)),
+            ('profile_id', self.gf('django.db.models.fields.IntegerField')(db_index=True, null=True, blank=True)),
             ('start_date', self.gf('django.db.models.fields.DateField')()),
             ('end_date', self.gf('django.db.models.fields.DateField')()),
             ('notes', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
             ('history_id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('history_date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
+            ('history_date', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+            ('history_user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], null=True)),
             ('history_type', self.gf('django.db.models.fields.CharField')(max_length=1)),
         ))
         db.send_create_signal('timecard', ['HistoricalTimecard'])
@@ -79,9 +82,10 @@ class Migration(SchemaMigration):
         db.create_table('timecard_historicalstamp', (
             ('id', self.gf('django.db.models.fields.IntegerField')(db_index=True, blank=True)),
             ('stamp', self.gf('django.db.models.fields.DateTimeField')()),
-            ('timecard', self.gf('django.db.models.fields.IntegerField')(db_index=True, null=True, blank=True)),
+            ('timecard_id', self.gf('django.db.models.fields.IntegerField')(db_index=True, null=True, blank=True)),
             ('history_id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('history_date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
+            ('history_date', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+            ('history_user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], null=True)),
             ('history_type', self.gf('django.db.models.fields.CharField')(max_length=1)),
         ))
         db.send_create_signal('timecard', ['HistoricalStamp'])
@@ -122,43 +126,83 @@ class Migration(SchemaMigration):
 
 
     models = {
+        'auth.group': {
+            'Meta': {'object_name': 'Group'},
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '80'}),
+            'permissions': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['auth.Permission']", 'symmetrical': 'False', 'blank': 'True'})
+        },
+        'auth.permission': {
+            'Meta': {'ordering': "('content_type__app_label', 'content_type__model', 'codename')", 'unique_together': "(('content_type', 'codename'),)", 'object_name': 'Permission'},
+            'codename': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'content_type': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['contenttypes.ContentType']"}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
+        },
+        'auth.user': {
+            'Meta': {'object_name': 'User'},
+            'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
+            'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
+            'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
+            'groups': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['auth.Group']", 'symmetrical': 'False', 'blank': 'True'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'is_staff': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'is_superuser': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
+            'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
+            'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
+            'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['auth.Permission']", 'symmetrical': 'False', 'blank': 'True'}),
+            'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
+        },
+        'contenttypes.contenttype': {
+            'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},
+            'app_label': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+        },
         'timecard.historicalrfidcard': {
-            'Meta': {'ordering': "('-history_date',)", 'object_name': 'HistoricalRfidcard'},
+            'Meta': {'ordering': "('-history_date', '-history_id')", 'object_name': 'HistoricalRfidcard'},
             'active': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'history_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
+            'history_date': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'history_id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'history_type': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
+            'history_user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']", 'null': 'True'}),
             'id': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'blank': 'True'}),
-            'profile': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
+            'profile_id': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
             'rfid': ('django.db.models.fields.CharField', [], {'max_length': '24'})
         },
         'timecard.historicalstamp': {
-            'Meta': {'ordering': "('-history_date',)", 'object_name': 'HistoricalStamp'},
-            'history_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
+            'Meta': {'ordering': "('-history_date', '-history_id')", 'object_name': 'HistoricalStamp'},
+            'history_date': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'history_id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'history_type': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
+            'history_user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']", 'null': 'True'}),
             'id': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'blank': 'True'}),
             'stamp': ('django.db.models.fields.DateTimeField', [], {}),
-            'timecard': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'})
+            'timecard_id': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'})
         },
         'timecard.historicaltimecard': {
-            'Meta': {'ordering': "('-history_date',)", 'object_name': 'HistoricalTimecard'},
+            'Meta': {'ordering': "('-history_date', '-history_id')", 'object_name': 'HistoricalTimecard'},
             'end_date': ('django.db.models.fields.DateField', [], {}),
-            'history_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
+            'history_date': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'history_id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'history_type': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
+            'history_user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']", 'null': 'True'}),
             'id': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'blank': 'True'}),
             'notes': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'profile': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
+            'profile_id': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'}),
             'start_date': ('django.db.models.fields.DateField', [], {}),
-            'timecardtype': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'})
+            'timecardtype_id': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'null': 'True', 'blank': 'True'})
         },
         'timecard.historicaltimecardtype': {
-            'Meta': {'ordering': "('-history_date',)", 'object_name': 'HistoricalTimecardType'},
+            'Meta': {'ordering': "('-history_date', '-history_id')", 'object_name': 'HistoricalTimecardType'},
             'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'history_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
+            'history_date': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'history_id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'history_type': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
+            'history_user': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']", 'null': 'True'}),
             'id': ('django.db.models.fields.IntegerField', [], {'db_index': 'True', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '64'}),
             'ranking': ('django.db.models.fields.IntegerField', [], {'db_index': 'True'})
