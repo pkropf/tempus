@@ -25,6 +25,7 @@ from django.db import models
 from django.contrib import admin
 from datetime import datetime, date, timedelta
 from django.core.exceptions import ValidationError
+from simple_history.models import HistoricalRecords
 
 
 class Profile(models.Model):
@@ -43,6 +44,8 @@ class Profile(models.Model):
     emergency_last_name  = models.CharField(max_length=64, help_text="Name of the emergency contact for the person.", null=True, blank=True)
     emergency_phone      = models.CharField(max_length=15, help_text="Phone number of the emergency contact for the person.", null=True, blank=True)
 
+    history = HistoricalRecords()
+
 
     def __unicode__(self):
         return '%s %s' % (self.first_name, self.last_name)
@@ -55,6 +58,8 @@ class CrossName(models.Model):
     """Names of cross references.
     """
     name      = models.CharField(max_length=64, help_text="cross reference name")
+
+    history = HistoricalRecords()
 
     class Meta:
         verbose_name = 'Cross Reference Name'
@@ -69,6 +74,8 @@ class CrossReference(models.Model):
     name      = models.ForeignKey(CrossName)
     reference = models.IntegerField(db_index=True, help_text="cross reference id")
     profile   = models.ForeignKey(Profile)
+
+    history = HistoricalRecords()
 
     class Meta:
         unique_together = (("name", "profile"),)

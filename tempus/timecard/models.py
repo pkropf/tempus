@@ -26,6 +26,7 @@ from django.contrib import admin
 from datetime import datetime, date, timedelta
 from django.core.exceptions import ValidationError
 from tempus.user.models import Profile
+from simple_history.models import HistoricalRecords
 
 
 
@@ -35,6 +36,8 @@ class Rfidcard(models.Model):
     rfid = models.CharField(max_length=24)
     active = models.BooleanField()
     profile = models.ForeignKey(Profile, null = True, blank = True)
+
+    history = HistoricalRecords()
 
     def __unicode__(self):
         return self.rfid
@@ -48,6 +51,8 @@ class TimecardType(models.Model):
     name = models.CharField(max_length=64)
     ranking = models.IntegerField(unique=True)
     description = models.TextField(help_text = 'Description of the type of timecard.', null = True, blank = True)
+
+    history = HistoricalRecords()
 
 
     def __unicode__(self):
@@ -66,6 +71,8 @@ class Timecard(models.Model):
     start_date    = models.DateField(help_text="The starting date for the timecard.")
     end_date      = models.DateField(help_text="The ending date for the timecard.")
     notes         = models.TextField(help_text="Notes on the timecard.", null=True, blank=True)
+
+    history = HistoricalRecords()
 
     start_date.current_filter = True
 
@@ -151,6 +158,8 @@ class Stamp(models.Model):
 
     stamp = models.DateTimeField(help_text="Clock date and time.")
     timecard = models.ForeignKey('Timecard')
+
+    history = HistoricalRecords()
 
 
     def __unicode__(self):
